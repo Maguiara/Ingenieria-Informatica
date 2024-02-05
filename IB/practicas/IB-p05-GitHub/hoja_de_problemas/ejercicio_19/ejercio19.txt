@@ -1,0 +1,1 @@
+Usar #include <fstream> para poder leer archivos, inicializo con un string con el nombre del archivo, y lo abro, 
