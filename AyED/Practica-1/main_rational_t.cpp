@@ -41,21 +41,21 @@ int main()
    x.write();
    y.write();
    cout << "x == y? " << (x.is_equal(y) ? "true" : "false") << endl;
-   cout << "x < y? " << (x.is_greater(y) ? "true" : "false") << endl;
-   cout << "x > y? " << (x.is_less(y) ? "true" : "false") << endl;
+   cout << "x < y? " << (x.is_less(y) ? "true" : "false") << endl;
+   cout << "x > y? " << (x.is_greater(y) ? "true" : "false") << endl;
 
   // FASE III
    cout << "a + b: ";
    a.add(b).write();
   
-  // cout << "b - a: ";
-  // b.substract(a).write();
+   cout << "b - a: ";
+   b.substract(a).write();
 
-  // cout << "a * b: ";
-  // a.multiply(b).write();
+   cout << "a * b: ";
+   a.multiply(b).write();
   
-  // cout << "a / b: ";
-  // a.divide(b).write();
+   cout << "a / b: ";
+   a.divide(b).write();
   
   return 0;
 }

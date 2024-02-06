@@ -57,13 +57,13 @@ bool rational_t::is_equal(const rational_t& r, const double precision) const {
 
 
 bool rational_t::is_greater(const rational_t& r, const double precision) const {
-  return (value() - r.value() < precision);
+  return (value() - r.value() > precision);
 }
 
 
 
 bool rational_t::is_less(const rational_t& r, const double precision) const {
-  return (r.value() - value() < precision);
+  return (r.value() - value() > precision);
 }
 
 
@@ -76,24 +76,23 @@ rational_t rational_t::add(const rational_t& r) {
 
 
 
-//rational_t
-//rational_t::substract(const rational_t& r)
-//{
-//}
+rational_t rational_t::substract(const rational_t& r) {
+  int numerador_resta =  (get_num() * r.get_den()) - (get_den() * r.get_num()); 
+  int denominador_resta = get_den() * r.get_den();
+  return rational_t(numerador_resta, denominador_resta);
+}
 
 
 
-//rational_t
-//rational_t::multiply(const rational_t& r)
-//{
-//}
+rational_t rational_t::multiply(const rational_t& r) {
+  return rational_t(get_num() * r.get_num(), get_den() * r.get_den());
+}
 
 
 
-//rational_t
-//rational_t::divide(const rational_t& r)
-//{
-//}
+rational_t rational_t::divide(const rational_t& r) {
+   return rational_t(get_num() * r.get_den(), get_den() * r.get_num());
+}
 
 
 
