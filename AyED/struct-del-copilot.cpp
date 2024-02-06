@@ -1,5 +1,5 @@
-#include <iostream>
-#include <string>
+
+const int N_Equipos = 22; // Add the missing constant N_Equipos
 
 struct Equipo {
   std::string nombre;
@@ -22,5 +22,5 @@ void CalcularClasificacion(Equipo Liga[N_Equipos], Equipo_clasificacion Clasific
 
 
 int main () {
-  Equipo Liga[22]; // Declaración de un array de 22 equipos
+  Equipo Liga[N_Equipos]; // Declaración de un array de 22 equipos
 }
