@@ -1,6 +1,6 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
+// AUTOR: Marco Aguiar Álvarez 
+// FECHA: 06/02/24
+// EMAIL: Marco Aguiar Álvarez 
 // VERSION: 1.0
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // PRÁCTICA Nº: 1
@@ -21,7 +21,7 @@ using namespace std;
 
 int main()
 {
-  rational_t a(-1, -2), b(3), c;
+  rational_t a(-1, -4), b(-1, -4), c;
 
   cout << "a.value()= " << a.value() << endl;
   cout << "b.value()= " << b.value() << endl;
