@@ -100,14 +100,25 @@ rational_t rational_t::divide(const rational_t& r) {
 
 
 // E/S
-void rational_t::write(ostream& os) const {
-   if (get_num() < 0 && get_den() < 0) {
-    os << fabs(get_num()) << "/" << fabs(get_den()) << " = " << value() << endl; 
+void rational_t::write(ostream& os)  {
+  int mcd = gcd(get_num(), get_den());
+  if (get_num() < 0 && get_den() < 0) {
+    os << fabs(get_num()) / fabs(mcd) << "/" << fabs(get_den()) / fabs(mcd) << " = " << value() << endl; 
   } else {
-  os << get_num() << "/" << get_den() << " = " << value() << endl;
+    os << get_num() / fabs(mcd) << "/" << get_den() / fabs(mcd) << " = " << value() << endl;
   }
 }
 
+
+
+int rational_t::gcd(int n, int d) {
+  while (d != 0) {
+    int temp = d; 
+    d = n % d;
+    n = temp;
+  }
+  return n;
+}
 
 
 void  rational_t::read(istream& is) {

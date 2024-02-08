@@ -50,8 +50,8 @@ public:
    rational_t multiply(const rational_t&);
    rational_t divide(const rational_t&);
   
-  void write(ostream& = cout) const;
-  void irreducible() const;
+  void write(ostream& = cout);
+  int gcd(int, int);
   void read(istream& = cin);
   
 private:
