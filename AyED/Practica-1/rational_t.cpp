@@ -71,7 +71,8 @@ bool rational_t::is_less(const rational_t& r, const double precision) const {
 rational_t rational_t::add(const rational_t& r) {
   int numerador_suma = (get_num() * r.get_den()) + (get_den() * r.get_num());
   int denominador_suma = get_den() * r.get_den();
-  return rational_t(numerador_suma, denominador_suma);
+  int mcd = gcd(numerador_suma, denominador_suma);
+  return rational_t(numerador_suma / mcd, denominador_suma / mcd);
 }
 
 
@@ -79,21 +80,23 @@ rational_t rational_t::add(const rational_t& r) {
 rational_t rational_t::substract(const rational_t& r) {
   int numerador_resta =  (get_num() * r.get_den()) - (get_den() * r.get_num()); 
   int denominador_resta = get_den() * r.get_den();
-  return rational_t(numerador_resta, denominador_resta);
+  int mcd = gcd(numerador_resta, denominador_resta);
+  return rational_t(numerador_resta / mcd, denominador_resta / mcd);
 }
 
 
 
 rational_t rational_t::multiply(const rational_t& r) {
-  return rational_t(get_num() * r.get_num(), get_den() * r.get_den());
+  int mcd = gcd(get_num(), get_den());
+  return rational_t((get_num() * r.get_num()) / mcd , (get_den() * r.get_den()) / mcd);
 }
 
 
 
 rational_t rational_t::divide(const rational_t& r) {
-   return rational_t(get_num() * r.get_den(), get_den() * r.get_num());
+  int mcd = gcd(get_num(), get_den());
+  return rational_t((get_num() * r.get_den()) / mcd, (get_den() * r.get_num()) / mcd);
 }
-
 
 
 // E/S
@@ -107,11 +110,10 @@ void rational_t::write(ostream& os) const {
 
 
 
-void 
-rational_t::read(istream& is) {
-  cout << "¿Numerador? ";
+void  rational_t::read(istream& is) {
+  cout << "Introduzca un numerador ";
   is >> num_;
-  cout << "¿Denominador? ";
+  cout << "Introduzca un denominador ";
   is >> den_;
   assert(den_ != 0);
 }

@@ -26,6 +26,7 @@ int main()
   cout << "a.value()= " << a.value() << endl;
   cout << "b.value()= " << b.value() << endl;
   cout << "c.value()= " << c.value() << endl;
+  
 
   cout << "a: ";
   a.write();

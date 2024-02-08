@@ -15,6 +15,7 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
+#include <algorithm>
 
 // pauta de estilo [5]
 # define EPSILON 1e-6
@@ -50,6 +51,7 @@ public:
    rational_t divide(const rational_t&);
   
   void write(ostream& = cout) const;
+  void irreducible() const;
   void read(istream& = cin);
   
 private:
