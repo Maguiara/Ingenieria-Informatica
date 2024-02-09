@@ -49,9 +49,9 @@ public:
    rational_t substract(const rational_t&);
    rational_t multiply(const rational_t&);
    rational_t divide(const rational_t&);
+   int gcd(int, int);
   
   void write(ostream& = cout);
-  int gcd(int, int);
   void read(istream& = cin);
   
 private:
