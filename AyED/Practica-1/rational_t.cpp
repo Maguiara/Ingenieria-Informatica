@@ -1,14 +1,14 @@
-// AUTOR:  Marco Aguiar Álvarez 
-// FECHA: 06/02/24
-// EMAIL: alu0101620961@ull.edu.es
-// VERSION: 1.0
-// ASIGNATURA: Algoritmos y Estructuras de Datos
-// PRÁCTICA Nº: 1
-// COMENTARIOS: se indican entre [] las pautas de estilo aplicadas de
-//              "C++ Programming Style Guidelines"
-//              https://geosoft.no/development/cppstyle.html
-
-// pauta de estilo [92]: comentarios multilínea usando solo "//"
+/**
+ * AUTOR: Marco Aguiar Álvarez
+ * FECHA: 06/02/24 
+ * EMAIL: alu0101620961@ull.edu.es
+ * VERSION: 1.0
+ * ASIGNATURA: Algoritmos y Estructuras de Datos
+ * PRÁCTICA Nº: 1
+ * COMENTARIOS: se indican entre [] las pautas de estilo aplicadas de
+ *                "C++ Programming Style Guidelines"
+ *             https://geosoft.no/development/cppstyle.html
+ */
 
 #include "rational_t.hpp"
 
@@ -150,20 +150,6 @@ rational_t rational_t::divide(const rational_t& r) {
 }
 
 
-/**
- * @brief Metodo que encuentra el mcd de un objeto de la clase racional con el fin de encontrar la fraccion irreducible
- * @param n numerador del objeto
- * @param d denominador del objeto
- * @return devuelve el maximo comun divisor entre numerador y denominador
-*/
-int rational_t::gcd(int n, int d) {
-  while (d != 0) {
-    int temp = d; 
-    d = n % d;
-    n = temp;
-  }
-  return n;
-}
 
 // E/S
 
@@ -192,4 +178,20 @@ void  rational_t::read(istream& is) {
   cout << "Introduzca un denominador ";
   is >> den_;
   assert(den_ != 0);
+}
+
+
+/**
+ * @brief Metodo que encuentra el mcd de un objeto de la clase racional con el fin de encontrar la fraccion irreducible
+ * @param n numerador del objeto
+ * @param d denominador del objeto
+ * @return devuelve el maximo comun divisor entre numerador y denominador
+*/
+int rational_t::gcd(int n, int d) {
+  while (d != 0) {
+    int temp = d; 
+    d = n % d;
+    n = temp;
+  }
+  return n;
 }

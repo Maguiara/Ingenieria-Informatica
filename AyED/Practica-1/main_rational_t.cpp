@@ -1,20 +1,18 @@
-// AUTOR: Marco Aguiar Álvarez 
-// FECHA: 06/02/24
-// EMAIL: Marco Aguiar Álvarez 
-// VERSION: 1.0
-// ASIGNATURA: Algoritmos y Estructuras de Datos
-// PRÁCTICA Nº: 1
-// COMENTARIOS: se indican entre [] las pautas de estilo aplicadas de
-//              "C++ Programming Style Guidelines"
-//              https://geosoft.no/development/cppstyle.html
-// COMPILACIÓN: g++ -g rational_t.cpp main_rational_t.cpp -o main_rational_t
-
-// pauta de estilo [92]: comentarios multilínea usando solo "//"
+/**
+ * AUTOR: Marco Aguiar Álvarez
+ * FECHA: 06/02/24 
+ * EMAIL: alu0101620961@ull.edu.es
+ * VERSION: 1.0
+ * ASIGNATURA: Algoritmos y Estructuras de Datos
+ * PRÁCTICA Nº: 1
+ * COMENTARIOS: se indican entre [] las pautas de estilo aplicadas de
+ *                "C++ Programming Style Guidelines"
+ *             https://geosoft.no/development/cppstyle.html
+ */
 
 #include <iostream>
 #include <cmath>
 
-// pauta de estilo [41]: ficheros de cabecera agrupados y separados
 #include "rational_t.hpp"
 
 using namespace std;
