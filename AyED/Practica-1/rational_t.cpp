@@ -149,8 +149,6 @@ rational_t rational_t::divide(const rational_t& r) {
   return rational_t((get_num() * r.get_den()) / mcd, (get_den() * r.get_num()) / mcd);
 }
 
-
-
 // E/S
 
 /**
@@ -194,4 +192,18 @@ int rational_t::gcd(int n, int d) {
     n = temp;
   }
   return n;
+}
+
+// PRACTICA VIERNES 
+
+
+/**
+ * @brief Metodo que calcula la raiz cuadrada del denominador
+ * @param r objeto de la clase rational_t
+ * @return devuelve un objeto de la clase racional con la raiz cuadrada del denominador 
+*/
+
+void rational_t::squared_den() {
+  double raiz_cuadrada = get_num() / sqrt(get_den()); 
+  cout << get_num() << "/√" << get_den() << " = " << raiz_cuadrada << endl;   
 }

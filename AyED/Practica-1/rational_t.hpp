@@ -47,7 +47,9 @@ public:
    rational_t substract(const rational_t&);
    rational_t multiply(const rational_t&);
    rational_t divide(const rational_t&);
-  
+
+  //Practica viernes
+  void squared_den(); 
   
   void write(ostream& = cout);
   void read(istream& = cin);

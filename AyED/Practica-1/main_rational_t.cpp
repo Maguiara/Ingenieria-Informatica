@@ -19,7 +19,7 @@ using namespace std;
 
 int main()
 {
-  rational_t a(-1, -4), b(-1, -4), c;
+  rational_t a(1, 4), b(1, 4), c;
 
   cout << "a.value()= " << a.value() << endl;
   cout << "b.value()= " << b.value() << endl;
@@ -55,6 +55,11 @@ int main()
   
    cout << "a / b: ";
    a.divide(b).write();
+
+  //Practica viernes
+   cout << "num / √den: "; 
+   a.squared_den();
+
   
   return 0;
 }
