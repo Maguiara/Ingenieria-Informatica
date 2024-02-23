@@ -31,5 +31,5 @@ int main () {
     termino_serie++;
   }
 
-  std::cout << "La aproximacion despues de " << numero_iteraciones << " iteraciones es: " << termino_calculado << std::endl;
+  std::cout << "La aproximacion despues de " << numero_iteraciones << " iteraciones es: " << std::setprecision(17) << termino_calculado << std::endl;
 }
