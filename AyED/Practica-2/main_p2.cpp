@@ -54,7 +54,16 @@ int main()
   y.read(), y.write();
   
   cout << "Producto escalar de vector_t<rational_t>: " << scal_prod(x, y) << endl << endl;
+
   
+ //Modificacion viernes
+  cout << "Rotaacion circular del vector y: " << endl;
+  y.rotacion_circular();
+  y.write();
+
+  cout << "Rotacion ciruclar del vector v: " << endl;
+  v.rotacion_circular();
+  v.write();
   
   // FASE III
   matrix_t<double> A, B, C;

@@ -41,6 +41,10 @@ public:
   void write(ostream& = cout) const;
   void read(istream& = cin);
 
+  //Modificacion viernes
+  void rotacion_circular();
+
+
 private:
   T *v_;
   int sz_;
@@ -195,4 +199,13 @@ double scal_prod(const vector_t<rational_t>& v, const vector_t<rational_t>& w) {
     resultado_double = resultado_double + resultado_double_temp.value();
   }
   return resultado_double;
+}
+
+template<class T>
+void vector_t<T>::rotacion_circular() {
+  T temporal = at(get_size() - 1);
+  for (int i = get_size()- 1; i > 0; --i) {
+    at(i) = at(i - 1);
+  }
+  at(0) = temporal;
 }
