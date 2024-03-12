@@ -1,5 +1,5 @@
  /*
- *  GRAFO.CPP - Plantilla para la implementación de la clase GRAFOS
+ *  GRAFO.CPP - Plantilla para la implementaciï¿½n de la clase GRAFOS
  *
  *
  *  Autores : Antonio Sedeno Noda, Sergio Alonso
@@ -39,13 +39,25 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura)
 		// creamos las n listas de sucesores
 		LS.resize(n);
         // leemos los m arcos
-		for (k=0;k<m;k++)
-        	{
+		for (k=0;k<m;k++) {
 			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
+            dummy.j = j - 1;
+            LS[i - 1].push_back(dummy);
+            if (dirigido == 1) {
+                dummy.j = i - 1;
+                LP[j - 1].push_back(dummy);
+            } else {
+                assert( i != j);
+                dummy.j = i - 1;
+                LS[j - 1].push_back(dummy);
+            }
+        }
+        textfile.close(nombrefichero);
+        errorapertura = 0;
 			//damos los valores a dummy.j y dummy.c
-			//situamos en la posición del nodo i a dummy mediante push_back
+			//situamos en la posiciï¿½n del nodo i a dummy mediante push_back
 			//pendiente de hacer un segundo push_back si es no dirigido. O no.
-			//pendiente la construcción de LP, si es dirigido
+			//pendiente la construcciï¿½n de LP, si es dirigido
 			//pendiente del valor a devolver en errorapertura
 			//...
 
@@ -115,7 +127,7 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
 				vector<LA_nodo>  L, //lista que recorremos, LS o LP; por defecto LS
 				vector<unsigned> &pred, //vector de predecesores en el recorrido
 				vector<unsigned> &d) //vector de distancias a nodo i+1
-//Recorrido en amplitud con la construcción de pred y d: usamos la cola
+//Recorrido en amplitud con la construcciï¿½n de pred y d: usamos la cola
 {
     vector<bool> visitado; //creamos e iniciamos el vector visitado
     visitado.resize(n, false);
@@ -129,20 +141,20 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
     queue<unsigned> cola; //creamos e inicializamos la cola
     cola.push(i);//iniciamos el recorrido desde el nodo i+1
 
-    while (!cola.empty()) //al menos entra una vez al visitar el nodo i+1 y continúa hasta que la cola se vacíe
+    while (!cola.empty()) //al menos entra una vez al visitar el nodo i+1 y continï¿½a hasta que la cola se vacï¿½e
     {   unsigned k = cola.front(); //cogemos el nodo k+1 de la cola
         cola.pop(); //lo sacamos de la cola
         //Hacemos el recorrido sobre L desde el nodo k+1
         for (unsigned j=0;j<L[k].size();j++)
             //Recorremos todos los nodos u adyacentes al nodo k+1
-            //Si el nodo u no está visitado
+            //Si el nodo u no estï¿½ visitado
             {
             //Lo visitamos
             //Lo metemos en la cola
             //le asignamos el predecesor
             //le calculamos su etiqueta distancia
             };
-        //Hemos terminado pues la cola está vacía
+        //Hemos terminado pues la cola estï¿½ vacï¿½a
     };
 }
 
