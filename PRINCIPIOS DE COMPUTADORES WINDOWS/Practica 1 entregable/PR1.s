@@ -11,6 +11,7 @@ cadnt:		.asciiz "\nNumero de terminos: "
 cadfin:		.asciiz "\nPR1: Fin del programa.\n"
 
 	.text
+	
 main:
 
 	# Imprimir titulo
