@@ -1,0 +1,9 @@
+#agregar comentarios
+
+fibonacci: fibonacci.o
+	g++ -o  fibonacci fibonacci.o
+fibonacci.o: fibonacci.cc
+	g++ -c fibonacci.cc -o fibonacci.o 
+clean:
+	rm -f fibonacci 
+	rm -f fibonacci.o 

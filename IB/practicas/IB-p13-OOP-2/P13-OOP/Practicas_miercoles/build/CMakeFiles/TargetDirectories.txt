@@ -1,0 +1,3 @@
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/build/CMakeFiles/rebuild_cache.dir
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/build/CMakeFiles/edit_cache.dir
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/build/CMakeFiles/P13_rectangulo.dir

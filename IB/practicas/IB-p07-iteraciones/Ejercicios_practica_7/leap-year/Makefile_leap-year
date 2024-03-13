@@ -1,0 +1,9 @@
+#agregar comentarios
+
+leap-year: leap-year.o
+	g++ -o leap-year leap-year.o
+leap-year.o: leap-year.cc
+	g++ -c leap-year.cc -o leap-year.o 
+clean:
+	rm -f leap-year
+	rm -f leap-year.o 

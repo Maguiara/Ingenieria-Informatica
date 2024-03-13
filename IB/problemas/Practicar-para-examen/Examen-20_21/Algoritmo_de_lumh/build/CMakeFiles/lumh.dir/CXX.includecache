@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/usuario/problemas/Practicar-para-examen/Practica-examen/Examen-20_21/Algoritmo_de_lumh/src/lumh.cc
+lumh.h
+/home/usuario/problemas/Practicar-para-examen/Practica-examen/Examen-20_21/Algoritmo_de_lumh/src/lumh.h
+
+/home/usuario/problemas/Practicar-para-examen/Practica-examen/Examen-20_21/Algoritmo_de_lumh/src/lumh.h
+iostream
+-
+string
+-
+cctype
+-
+
+/home/usuario/problemas/Practicar-para-examen/Practica-examen/Examen-20_21/Algoritmo_de_lumh/src/lumh_main.cc
+lumh.h
+/home/usuario/problemas/Practicar-para-examen/Practica-examen/Examen-20_21/Algoritmo_de_lumh/src/lumh.h
+

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/src/P13_rectangulo.cc
+iostream
+-
+P13_rectangulo.h
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/src/P13_rectangulo.h
+
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/src/P13_rectangulo.h
+iostream
+-
+
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/src/P13_rectangulo_main.cc
+iostream
+-
+P13_rectangulo.h
+/home/usuario/practicas/IB-p13-OOP-2/ib-2023-2024-p13-oop-Maguiara/P13-OOP/Practicas_miercoles/src/P13_rectangulo.h
+

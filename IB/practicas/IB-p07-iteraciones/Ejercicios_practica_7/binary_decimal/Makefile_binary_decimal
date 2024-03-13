@@ -1,0 +1,10 @@
+#agregar comentarios
+
+binary_decimal: binary_decimal.o
+	g++ -o binary_decimal binary_decimal.o
+binary_decimal.o: binary_decimal.cc
+	g++ -c binary_decimal.cc -o binary_decimal.o 
+clean:
+	rm -f binary_decimal
+	rm -f binary_decimal.o 
+

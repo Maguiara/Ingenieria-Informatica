@@ -1,0 +1,14 @@
+  double minimo = 0;
+ 26   double maximo = numero;  
+ 27   double medio = (maximo + minimo) / 2;
+ 28   while (std::abs(medio * medio - numero) > 1e-7) {
+ 29     if (medio * medio > numero) {
+ 30       maximo = medio;
+ 31     } else { 
+ 32       minimo = medio;
+ 33     }   
+ 34     medio = (maximo + minimo) / 2;
+ 35   }
+ 36   return medio;
+ 37 } 
+ 38   

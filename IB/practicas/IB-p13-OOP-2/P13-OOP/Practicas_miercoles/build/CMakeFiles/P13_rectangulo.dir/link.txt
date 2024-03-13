@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/P13_rectangulo.dir/src/P13_rectangulo.cc.o CMakeFiles/P13_rectangulo.dir/src/P13_rectangulo_main.cc.o  -o P13_rectangulo 

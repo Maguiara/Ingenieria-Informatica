@@ -1,0 +1,9 @@
+
+decimal_binary: decimal_binary.o
+	g++ -o decimal_binary decimal_binary.o
+decimal_binary.o: decimal_binary.cc
+	g++ -c decimal_binary.cc -o decimal_binary.o 
+clean:
+	rm -f decimal_binary
+	rm -f decimal_binary.o
+	rm -f decimal_binary.h.gch
