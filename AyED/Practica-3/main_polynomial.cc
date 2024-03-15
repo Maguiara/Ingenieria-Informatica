@@ -91,5 +91,14 @@ int main()
   cout << "sp3 == p2? " << (sp3.IsEqual(p2) ? "true" : "false") << endl;
   cout << endl;
 
+
+  // Modificacion viernes
+  cout << "Modificacion viernes: sumar los grados de los polinomios dispersdos" << endl;
+  cout << "sp1: " << endl; 
+   sp1.SumaDeGradosDePolinomios();
+  cout << "sp2: " << endl;
+  sp2.SumaDeGradosDePolinomios();
+  cout << "sp3: " << endl;
+  sp3.SumaDeGradosDePolinomios();
   return 0;
 }

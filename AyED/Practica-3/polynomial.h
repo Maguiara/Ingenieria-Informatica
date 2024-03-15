@@ -55,6 +55,9 @@ class SparsePolynomial : public sparse_vector_t {
   double Eval(const double) const;
   bool IsEqual(const SparsePolynomial&, const double = EPS) const;
   bool IsEqual(const Polynomial&, const double = EPS) const;
+
+  // Modificacion viernes
+  void SumaDeGradosDePolinomios() const;
 };
 
 // E/S
@@ -166,6 +169,19 @@ bool SparsePolynomial::IsEqual(const Polynomial& pol, const double eps) const {
   }
   return !differents;
 }
+
+// Modificacion viernes
+
+void SparsePolynomial::SumaDeGradosDePolinomios() const {
+  int suma{0};
+  for (int i{0}; i < get_nz(); i++) {
+    (i < get_nz() - 1) ? std::cout << at(i).get_inx() << " + " : std::cout << at(i).get_inx();
+    suma += at(i).get_inx();
+  }
+  std::cout << " = " << suma << std::endl;
+}
+
+
 
 
 #endif  // POLYNOMIAL_H_
