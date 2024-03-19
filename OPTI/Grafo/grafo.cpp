@@ -30,8 +30,7 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura)
     ElementoLista     dummy;
 	ifstream textfile;
 	textfile.open(nombrefichero);
-	if (textfile.is_open())
-    {
+	if (textfile.is_open()) {
 		unsigned i, j, k;
 		// leemos por conversion implicita el numero de nodos, arcos y el atributo dirigido
 		textfile >> (unsigned &) n >> (unsigned &) m >> (unsigned &) dirigido;
@@ -61,6 +60,7 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura)
 			//pendiente del valor a devolver en errorapertura
 			//...
 
+    }
 }
 
 GRAFO::~GRAFO()
@@ -120,6 +120,24 @@ void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vect
 
 void GRAFO::RecorridoProfundidad()
 {
+    vector<bool> visitado;
+    visitado.resize(n, false);
+
+    vector<unsigned> prenum;
+    prenum.resize(n, 0);    
+    
+    vector<unsigned> postnum;
+    postnum.resize(n, 0);
+
+    unsigned prenum_ind = 0;
+    unsigned postnum_ind = 0;
+    unsigned i = 0;
+
+    cout << "Introduzca el nodo inicial: " << endl;
+    cin >> (unsigned &) i;
+
+    dfs_num(i - 1, visitado, prenum, prenum_ind, postnum, postnum_ind);
+    //Imprimimos por pantalla prenum y postnum
 
 }
 
@@ -145,21 +163,36 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
     {   unsigned k = cola.front(); //cogemos el nodo k+1 de la cola
         cola.pop(); //lo sacamos de la cola
         //Hacemos el recorrido sobre L desde el nodo k+1
-        for (unsigned j=0;j<L[k].size();j++)
+        for (unsigned j = 0; j < L[k].size(); j++)
             //Recorremos todos los nodos u adyacentes al nodo k+1
             //Si el nodo u no est� visitado
             {
-            //Lo visitamos
-            //Lo metemos en la cola
-            //le asignamos el predecesor
-            //le calculamos su etiqueta distancia
-            };
+            if (!visitado(L[k][j].j)) {
+                //Lo visitamos
+                visitado(L[k][j].j) = true;
+                //Lo metemos en la cola
+                cola.push(L[k][j].j);
+                //le asignamos el predecesor
+                pred[L[k][j].j] = k;
+                //le calculamos su etiqueta distancia
+                d(L[k][j].j) = d[k] + 1;
+            } 
+        };
         //Hemos terminado pues la cola est� vac�a
     };
 }
 
-void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial
+void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial 
 {
+    unsigned i = 0;
+
+    cout << "Introduzca el nodo inicial (1 <= nodo_introducido <= n) " << endl;
+    cin >> (unsigned & ) i;
+    
+    bfs_num(i - 1, LS, pred, d);
+
+    //Imprimimos por pantalla la infomracion de pred y d
+
 
 }
 
