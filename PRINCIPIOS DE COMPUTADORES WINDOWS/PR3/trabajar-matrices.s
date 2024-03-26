@@ -321,17 +321,3 @@ main:
 
         j print_mat
 
-# Datos de cadena
-str_title: .asciiz "Programa en MIPS para trabajar con matrices\n"
-str_menu: .asciiz "Menú:\n(0) Terminar el programa\n(1) Cambiar la matriz de trabajo\n(3) Cambiar el valor de un elemento\n(4) Intercambiar un elemento con su opuesto\n(7) Encontrar el mínimo\n"
-str_mat_num: .asciiz "Introduce el número de matriz (1, 2 o 3): "
-str_row_idx: .asciiz "Introduce el índice de fila: "
-str_col_idx: .asciiz "Introduce el índice de columna: "
-str_new_val: .asciiz "Introduce el nuevo valor: "
-str_fil: .asciiz "Número de filas: "
-str_col: .asciiz "Número de columnas: "
-str_space: .asciiz " "
-str_nl: .asciiz "\n"
-str_min_val: .asciiz "El valor mínimo es: "
-str_min_row: .asciiz "Índice de fila del mínimo: "
-str_min_col: .asciiz "Índice de columna del mínimo: "
