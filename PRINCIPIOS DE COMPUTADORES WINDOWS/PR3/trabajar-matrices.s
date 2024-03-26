@@ -19,7 +19,6 @@ str_min_row: .asciiz "Índice de fila del mínimo: "
 str_min_col: .asciiz "Índice de columna del mínimo: "
 
 .text
-.globl main
 
 # Función print_mat
 print_mat:
@@ -49,7 +48,7 @@ print_mat:
     loop_fil:
         move $t4, $t1 # Contador de columnas
         loop_col:
-            lw $f12, 0($t2)
+            lw $t2, 0($t2)
             li $v0, 2
             syscall
             addi $t2, $t2, 4
@@ -148,21 +147,21 @@ find_min:
 
     # Buscar el mínimo
     move $t5, $t0 # Contador de filas
-    loop_fil:
+    loop_filas:
         move $t6, $t1 # Contador de columnas
-        loop_col:
+        loop_columnas:
             lwc1 $f1, 0($t2)
             c.lt.s $f1, $f0
             bc1t update_min
             addi $t2, $t2, 4
             addi $t6, $t6, -1
-            bgtz $t6, loop_col
+            bgtz $t6, loop_columnas
         addi $t2, $t2, 4
         addi $t5, $t5, -1
-        bgtz $t5, loop_fil
+        bgtz $t5, loop_filas
 
     # Devolver el mínimo y sus índices
-    move $v0, $f0
+    mov.s $f2, $f0
     move $v1, $t3
     move $a0, $t4
 
@@ -193,10 +192,10 @@ main:
 
         # Realizar acción según la opción seleccionada
         beq $t0, 0, exit
-        beq $t0, 1, change_mat
-        beq $t0, 3, change_elto
-        beq $t0, 4, intercambia
-        beq $t0, 7, find_min
+        beq $t0, 1, change_matriz
+        beq $t0, 3, change_elemento
+        beq $t0, 4, intercambiar
+        beq $t0, 7, find_mininimo
 
         j loop
 
@@ -206,7 +205,7 @@ main:
         syscall
 
     # Cambiar la matriz de trabajo
-    change_mat:
+    change_matriz:
         # Leer número de matriz
         la $a0, str_mat_num
         li $v0, 4
@@ -233,7 +232,7 @@ main:
             j print_mat
 
     # Cambiar el valor de un elemento
-    change_elto:
+    change_elemento:
         # Leer índices
         la $a0, str_row_idx
         li $v0, 4
@@ -261,13 +260,13 @@ main:
         la $a0, mat1
         move $a1, $t0
         move $a2, $t1
-        move $a3, $f0
+        mov.s $f2, $f0
         jal change_elto
 
         j print_mat
 
     # Intercambiar un elemento con su opuesto
-    intercambia:
+    intercambiar:
         # Leer índices
         la $a0, str_row_idx
         li $v0, 4
@@ -292,7 +291,7 @@ main:
         j print_mat
 
     # Encontrar el mínimo
-    find_min:
+    find_mininimo:
         # Encontrar el mínimo
         la $a0, mat1
         jal find_min
