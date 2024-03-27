@@ -1,0 +1,522 @@
+#// Solución PR3 curso 23-24
+#// Manejo de matrices con funciones
+#
+#
+#typedef struct {
+#  int nFil;
+nFil = 0	# El desplazamiento al campo dentro de la estructura
+#  int nCol;
+nCol = 4	# El desplazamiento al campo dentro de la estructura
+#  float elementos[];
+elementos = 8	# El desplazamiento al campo dentro de la estructura
+#} structMat;
+#
+
+sizeF = 4	# Numero de bytes de un float
+LF = 10		# Caracter salto de línea
+	.data
+#structMat mat1 {
+#  6,
+#  6,
+#  {
+#    11.11, 12.12, 13.13, 14.14, 15.15, 16.16,
+#    21.21, 22.22, 23.23, 24.24, 25.25, 26.26,
+#    31.31, 32.32, 33.33, 34.34, 35.35, 36.36,
+#    41.41, 42.42, 43.43, 44.44, 45.45, 46.46,
+#    51.51, 52.52, 53.53, 54.54, 55.55, 56.56,
+#    61.61, 62.62, 63.63, 64.64, 65.65, 66.66
+#  }
+#};
+mat1:	.word	6
+	.word	6
+	.float	11.11, 12.12, 13.13, 14.14, 15.15, 16.16,
+	.float	21.21, 22.22, 23.23, 24.24, 25.25, 26.26,
+	.float	31.31, 32.32, 33.33, 34.34, 35.35, 36.36,
+	.float	41.41, 42.42, 43.43, 44.44, 45.45, 46.46,
+	.float	51.51, 52.52, 53.53, 54.54, 55.55, 56.56,
+	.float	61.61, 62.62, 63.63, 64.64, 65.65, 66.66
+
+#structMat mat2 {
+#  7,
+#  10,
+#  {
+#    -36.886, -58.201,  78.671,  19.092, -50.781,  33.961, -59.511, 12.347,  57.306,  -1.938,
+#    -86.858, -81.852,  54.623, -22.574,  88.217,  64.374,  52.312, 47.918, -83.549,  19.041,
+#     4.255, -36.842,  82.526,  27.394,  56.527,  39.448,  18.429, 97.057,  76.933,  14.583,
+#    67.79 ,  -9.861, -96.191,  32.369, -18.494, -43.392,  39.857, 80.686, -36.87 , -17.786,
+#    30.073,  89.938,  -6.889,  64.601, -85.018,  70.559, -48.853, -62.627, -60.147,  -5.524,
+#    84.323, -51.718,  93.127, -10.757,  32.119,  98.214,  69.471, 73.814,   3.724,  57.208,
+#    -41.528, -17.458, -64.226, -71.297, -98.745,   7.095, -79.112, 33.819,  63.531, -96.181
+#  }
+#};
+mat2:	.word	7
+	.word	10
+	.float	-36.886, -58.201,  78.671,  19.092, -50.781,  33.961, -59.511, 12.347,  57.306,  -1.938,
+	.float	-86.858, -81.852,  54.623, -22.574,  88.217,  64.374,  52.312, 47.918, -83.549,  19.041,
+	.float	4.255, -36.842,  82.526,  27.394,  56.527,  39.448,  18.429, 97.057,  76.933,  14.583,
+	.float	67.79 ,  -9.861, -96.191,  32.369, -18.494, -43.392,  39.857, 80.686, -36.87 , -17.786,
+	.float	30.073,  89.938,  -6.889,  64.601, -85.018,  70.559, -48.853, -62.627, -60.147,  -5.524,
+	.float	84.323, -51.718,  93.127, -10.757,  32.119,  98.214,  69.471, 73.814,   3.724,  57.208,
+	.float	-41.528, -17.458, -64.226, -71.297, -98.745,   7.095, -79.112, 33.819,  63.531, -96.181
+
+# structMat mat3 {
+#   1,
+#   8,
+#   {
+#     -36.52,  35.3 ,  79.05, -58.69, -55.23, -19.44, -88.63, -93.61
+#   }
+# };
+mat3:	.word	1
+	.word	8
+	.float	-36.52,  35.3 ,  79.05, -58.69, -55.23, -19.44, -88.63, -93.61
+
+# structMat mat4 {
+#   16,
+#   1,
+#   { -90.57, -65.11, -58.21, -73.23, -89.38, -79.25,  16.82,  66.3 ,
+#     -96.14, -97.16, -24.66,   5.27, -33.5 , -13.09,  27.13, -74.83 }
+# };
+mat4:	.word	16
+	.word	1
+	.float	-90.57, -65.11, -58.21, -73.23, -89.38, -79.25,  16.82,  66.3
+	.float	-96.14, -97.16, -24.66,   5.27, -33.5 , -13.09,  27.13, -74.83
+
+# structMat mat5 {
+#   1,
+#   1,
+#   { 78.98 }
+# };
+mat5:	.word	1
+	.word	1
+	.float	78.98
+
+# structMat mat6 {
+#   0,
+#   0,
+#   { 0 }
+# };
+mat6:	.word	0
+	.word	0
+	.float	0.0
+
+#float infinito = INFINITY;
+infinito:	.word	0x7F800000
+
+# Cadenas de caracteres
+str_titulo:	.asciiz	"\nComienza programa manejo matrices con funciones\n"
+str_menu:	.ascii	"(0) Terminar el programa\n"
+		.ascii	"(1) Cambiar la matriz de trabajo\n"
+		.ascii	"(3) Cambiar el valor de un elemento\n"
+		.ascii	"(4) Intercambiar un elemento con su opuesto\n"
+		.ascii	"(7) Encontrar el minimo\n"
+		.asciiz	"\nIntroduce opción elegida: "
+str_errorOpc:	.asciiz	"Error: opcion incorrecta\n"
+str_termina:	.asciiz	"\nTermina el programa\n"
+str_elijeMat:	.asciiz	"\nElije la matriz de trabajo (1..6): "
+str_numMatMal:	.asciiz	"Numero de matriz de trabajo incorrecto\n"
+str_errorFil:	.asciiz	"Error: dimension incorrecta.  Numero de fila incorrecto\n"
+str_errorCol:	.asciiz	"Error: dimension incorrecta.  Numero de columna incorrecto\n"
+str_indFila:	.asciiz	"\nIndice de fila: "
+str_indCol:	.asciiz	"Indice de columna: "
+str_nuevoValor:	.asciiz	"Nuevo valor para el elemento: "
+str_valMin:	.asciiz	"\nEl valor minimo esta en ("
+str_conValor:	.asciiz	") con valor "
+str_matx: .asciiz "x"
+str_coma: .asciiz ","
+str_matTiene:	.asciiz	"\n\nLa matriz tiene dimension "
+str_salto:	.asciiz	"\n"
+str_espacio:	.asciiz	" "
+
+
+
+.text
+# FUNCIONES ####################################################################
+#Funcion para imprimir las matrices por pantalla
+print_mat:
+	lw $t0, 0($a0) #Numero de filas
+	lw $t1, 4($a0) #Numero de columnas
+	addi $t2, $a0, 8 #Primera direccion de los elementos
+
+	#Imprimimos la dimension de la matriz
+	li $v0, 4
+	la $a0, str_matTiene
+	syscall
+
+	li $v0, 1
+	move $a0, $t0
+	syscall
+	li $v0, 4
+	la $a0, str_matx
+	syscall
+	li $v0, 1
+	move $a0, $t1
+	syscall
+
+	li $v0, 4
+	la $a0, str_salto
+	syscall
+
+	#Imprimimos los elementos de la matriz
+	mul $t3, $t0, $t1 #Tamaño de la matriz
+	li $t4, 0 #Indice de los elementos
+	li $t5, 0 #Indice de columna
+	li.s $f1, 0.0 #Comprobar que sea igual a 0.0
+	j bucle_imprimir
+
+	salto_linea:
+	li $v0, 4
+	la $a0, str_salto
+	syscall
+	li $t5, 0 #Reiniciamos el indice de columna
+	
+	j comprobar_fin
+
+	bucle_imprimir: 
+	lwc1 $f0, 0($t2) #Cargamos el elemento
+	#Imprimimos el elemento
+	c.eq.s $f0, $f1
+	bc1t comprobar_fin
+	li $v0, 2
+	mov.s $f12, $f0
+	syscall
+	li $v0, 4
+	la $a0, str_espacio
+	syscall
+
+	add $t5, $t5, 1
+	beq $t5, $t1, salto_linea
+
+	comprobar_fin:
+	add $t4, $t4, 1
+	addu $t2, $t2, 4
+	blt $t4, $t3, bucle_imprimir
+
+print_mat_fin: jr $ra
+
+#Funcion para cambiar un elemento de una matriz
+
+change_elto:
+
+	lw $t0, 0($a0) #Numero de filas
+	lw $t1, 4($a0) #Numero de columnas
+	move $t2, $a1, #Indice de la fila
+	move $t3, $a2 #Indice de la columna  
+
+
+	mul $t4, $t2, $t1 # indiceFila * nCol
+	addu $t4, $t4, $t3 #indFila * nCol + indCol
+	mul $t4, $t4, 4 #(indFila * nCol + indCol) * tamaño_elemento
+	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]	
+
+	#Cargamos el nuevo valor del elemento
+	swc1 $f12, 0($t4)
+	# Retorno de la función
+change_elto_fin: jr $ra
+
+#Funcion para intercambiar el contenido de dos posiciones de memorias en las que se encuentra un float 
+swap:
+	# Guardar los parámetros en registros
+	move $t0, $a0   # Dirección de memoria del primer elemento
+	move $t1, $a1   # Dirección de memoria del segundo elemento
+
+	# Intercambio de los elementos
+	lwc1 $f0, 0($t0) # Cargamos el primer elemento
+	lwc1 $f1, 0($t1) # Cargamos el segundo elemento
+	swc1 $f1, 0($t0) # Guardamos el segundo elemento en la primera posición
+	swc1 $f0, 0($t1) # Guardamos el primer elemento en la segunda posición
+
+	# Retorno de la función
+swap_fin: jr $ra
+
+
+#Funcion para intercambiar un elemento con su opuesto
+
+intercambia:
+
+	lw $t0, 0($a0) #Numero de filas
+	lw $t1, 4($a0) #Numero de columnas
+
+	#Calculamos la direccion de memoria del elemento a intercambiar
+	mul $t2, $a1, $t1 #nf * nCol
+	add $t2, $t2, $a2 #nf * nCol + nc
+	mul $t2, $t2, 4 # (nf * nCol + nc) * 4
+	add $t2, $t2, $a0 #Direccion de memoria del elemento a intercambiar
+
+	move $a0, $t2
+	
+	sub $t2, $t0, $a1 #nFil - nf 
+	sub $t2, $t2, 1 #nFil - nf - 1
+	sub $t3, $t1, $a2 #nCol - nc
+	sub $t3, $t3, 1 #nCol - nc - 1
+
+	mul $t6, $t2, $t4  # (nCol - nc - 1) * nFil
+	sub $t6, $t6, $t1  # (nCol - nc - 1) * nFil - nf
+	sub $t6, $t6, 1    # (nCol - nc - 1) * nFil - nf - 1
+	add $t6, $t6, $t0  # (nCol - nc - 1) * nFil - nf - 1 + nFil
+	mul $t6, $t6, 4    # ((nCol - nc - 1) * nFil - nf - 1 + nFil) * 4
+	add $t6, $t6, $a0  # Dirección de memoria del elemento a intercambiar
+
+	move $a1, $t6
+	jal swap
+
+intercambia_fin: jr $ra	
+	
+#Funcion para encontrar el minimo de una matriz
+find_min:
+	lw $t0, 0($a0) #Numero de filas
+	lw $t1, 4($a0) #Numero de columnas
+	addi $t5, $a0, 8 #Primera direccion de los elementos
+	beqz $t0, error
+	j cargar_parametros
+
+	error:
+	l.s $f0, infinito
+	li $v0, -1
+	li $v1, -1
+	j find_min_fin
+
+	cargar_parametros:
+	l.s $f0, infinito #Inicializamos el minimo a infinito
+	li $t2, 0 #Indice de fila
+	li $t3, 0 #Indice de columna
+	j bucle1
+
+	guardar_minimo:
+	mov.s $f0, $f1
+	move $v0, $t2
+	move $v1, $t3
+	j actualizar_direccion
+
+	bucle1: 
+	move $t3, $zero #reiniciamos el contador de columnas
+
+	bucle2:
+	mul $t4, $t2, $t1 # indiceFila * nCol
+	addu $t4, $t4, $t3 #indFila * nCol + indCol
+	mul $t4, $t4, 4 #(indFila * nCol + indCol) * tamaño_elemento
+	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]
+	lwc1 $f1, 0($t4) #Cargamos el primer elemento 
+	c.lt.s $f1, $f0
+	bc1t guardar_minimo
+
+	actualizar_direccion:
+	addi $t3, $t3, 1 #Calculo la siguiene columna
+	blt $t3, $t1, bucle2
+
+	addi $t2, $t2, 1 #Calculo la siguiente fila
+	blt $t2, $t0, bucle1
+
+find_min_fin: jr $ra
+
+#Funcion para encontrar el minimo de una matriz y devolver el valor y los indices
+main: 
+	li $v0, 4
+	la $a0, str_titulo
+	syscall
+
+	la $s0, mat1
+
+bucle_menu:
+
+	move $a0, $s0
+	jal print_mat
+
+	li $v0, 4
+	la $a0, str_salto
+	syscall	
+
+	li $v0, 4
+	la $a0, str_menu
+	syscall
+
+	li $v0, 5
+	syscall
+	move $t0, $v0
+
+
+	#Comprobamos que opcion escogio el usuario
+	beq $t0, 0, salir_programa
+	beq $t0, 1, cambiar_matriz_de_trabajo
+	beq $t0, 3, cambiar_elemento
+	beq $t0, 4, intercambiar_opuesto
+	beq $t0, 7, encontrar_minimo
+
+
+	#Comprobamos que el la opcion elegida sea valida
+	bltz $t0, opcion_error
+	bgt $t0, 7, opcion_error
+	beq $t0, 2, opcion_error
+	beq $t0, 5, opcion_error
+	beq $t0, 6, opcion_error
+
+	opcion_error:
+	#Imprime por pantalla mensaje de error
+	li $v0, 4
+	la $a0, str_errorOpc
+	syscall
+
+	li $v0, 4
+	la $a0, str_salto
+	syscall
+	
+	j bucle_menu
+
+salir_programa: 
+	li $v0, 4
+	la $a0, str_termina
+	syscall
+
+	li $v0, 10
+	syscall
+
+cambiar_matriz_de_trabajo: 
+	#Pedimos al usuario que matriz quiere cambiar
+	li $v0, 4
+	la $a0, str_elijeMat
+	syscall 
+
+	li $v0, 5
+	syscall
+	move $t1, $v0
+
+	#Comprobamos que la opcion escogida esta dentro del rango posble
+	blt $t1, 1, error_matriz
+	bgt $t1, 6, error_matriz
+
+	#Comprobamos la opcion escogida por el usuario
+	beq $t1, 1, mat1_selected
+	beq $t1, 2, mat2_selected
+	beq $t1, 3, mat3_selected
+	beq $t1, 4, mat4_selected
+	beq $t1, 5, mat5_selected
+	beq $t1, 6, mat6_selected
+
+	#Imprimimos la matriz escogida
+	mat1_selected:
+	la $s0, mat1
+	j bucle_menu
+
+	mat2_selected:
+	la $s0, mat2
+	j bucle_menu
+
+	mat3_selected:
+	la $s0, mat3
+	j bucle_menu
+	
+	mat4_selected:
+	la $s0, mat4
+	j bucle_menu
+
+	mat5_selected:
+	la $s0, mat5
+	j bucle_menu
+	
+	mat6_selected:
+	la $s0, mat6
+	j bucle_menu
+
+
+	error_matriz:
+	li $v0, 4
+	la $a0, str_numMatMal
+	syscall
+	j bucle_menu
+
+cambiar_elemento:
+	#Pedimos al usuario que elemento quiere cambiar
+	li $v0, 4
+	la $a0, str_indFila
+	syscall
+
+	li $v0, 5
+	syscall
+	move $t0, $v0
+
+	li $v0, 4
+	la $a0, str_indCol
+	syscall
+
+	li $v0, 5
+	syscall
+	move $t1, $v0
+
+	#Pedimos al usuario el nuevo valor del elemento
+	li $v0, 4
+	la $a0, str_nuevoValor
+	syscall
+
+	li $v0, 6
+	syscall
+	mov.s $f12, $f0
+	#Llamamos a la funcion que cambia el elemento
+	move $a0, $s0 #Direccion de la matriz
+	move $a1, $t0 #infice de la fila
+	move $a2, $t1 #Indice de la columna
+	
+	jal change_elto
+
+	j bucle_menu
+
+intercambiar_opuesto:
+	#Pedimos al usuario que elemento quiere intercambiar
+	li $v0, 4
+	la $a0, str_indFila
+	syscall
+
+	li $v0, 5
+	syscall
+	move $t0, $v0
+
+	li $v0, 4
+	la $a0, str_indCol
+	syscall
+
+	li $v0, 5
+	syscall
+	move $t1, $v0
+
+	#Llamamos a la funcion que intercambia el elemento
+	move $a0, $s0
+	move $a1, $t0
+	move $a2, $t1
+	jal intercambia
+
+	#Imprimimos la matriz con el nuevo elemento
+
+	j bucle_menu
+
+encontrar_minimo:
+
+
+	#Imprimimos el resultado
+	li $v0, 4
+	la $a0, str_valMin
+	syscall
+
+	#Llamamos a la funcion que encuentra el minimo
+	move $a0, $s0
+	jal find_min
+	move $t1, $v0
+
+	li $v0, 1
+	move $a0, $t1
+	syscall
+
+	li $v0, 4
+	la $a0, str_coma
+	syscall
+
+	li $v0, 1
+	move $a0, $v1
+	syscall
+
+	li $v0, 4
+	la $a0, str_conValor
+	syscall
+
+	li $v0, 2
+	mov.s $f12, $f0
+	syscall
+
+	j bucle_menu

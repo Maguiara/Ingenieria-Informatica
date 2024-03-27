@@ -1,7 +1,7 @@
 .data
-    mat1: .word 2, 3, 1, 4, 5, 6, 7, 8, 9
-    mat2: .word 1, 2, 3, 4, 5, 6, 7, 8, 9
-    mat3: .word 9, 8, 7, 6, 5, 4, 3, 2, 1
+    mat1: .float 2.0, 3.0, 1.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0
+    mat2: .float 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0
+    mat3: .float 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0
 
  # Datos de cadena
 str_title: .asciiz "Programa en MIPS para trabajar con matrices\n"
@@ -48,7 +48,7 @@ print_mat:
     loop_fil:
         move $t4, $t1 # Contador de columnas
         loop_col:
-            lw $t2, 0($t2)
+            lwc1 $f0, 0($t2)
             li $v0, 2
             syscall
             addi $t2, $t2, 4
