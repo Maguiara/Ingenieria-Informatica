@@ -199,12 +199,12 @@ change_elto:
 
 	lw $t0, 0($a0) #Numero de filas
 	lw $t1, 4($a0) #Numero de columnas
-	move $t2, $a1, #Indice de la fila
-	move $t3, $a2 #Indice de la columna  
+	addi $t5, $a0, 8 #Dirrecion del primer elemento de la columna 
+	  
 
 
-	mul $t4, $t2, $t1 # indiceFila * nCol
-	addu $t4, $t4, $t3 #indFila * nCol + indCol
+	mul $t4, $a1, $t1 # indiceFila * nCol
+	addu $t4, $t4, $a2 #indFila * nCol + indCol
 	mul $t4, $t4, 4 #(indFila * nCol + indCol) * tamaño_elemento
 	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]	
 
@@ -232,31 +232,30 @@ swap_fin: jr $ra
 #Funcion para intercambiar un elemento con su opuesto
 
 intercambia:
-
+	#Calculamos la direccion del elemento que introdujo el usuario
 	lw $t0, 0($a0) #Numero de filas
 	lw $t1, 4($a0) #Numero de columnas
+	addi $t5, $a0, 8 #Dirrecion del primer elemento de la columna 
 
-	#Calculamos la direccion de memoria del elemento a intercambiar
-	mul $t2, $a1, $t1 #nf * nCol
-	add $t2, $t2, $a2 #nf * nCol + nc
-	mul $t2, $t2, 4 # (nf * nCol + nc) * 4
-	add $t2, $t2, $a0 #Direccion de memoria del elemento a intercambiar
+	mul $t4, $a1, $t1 # indiceFila * nCol
+	addu $t4, $t4, $a2 #indFila * nCol + indCol
+	mul $t4, $t4, 4 #(indFila * nCol + indCol) * tamaño_elemento
+	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]	
 
-	move $a0, $t2
-	
-	sub $t2, $t0, $a1 #nFil - nf 
-	sub $t2, $t2, 1 #nFil - nf - 1
-	sub $t3, $t1, $a2 #nCol - nc
-	sub $t3, $t3, 1 #nCol - nc - 1
+	move $a0,  $t4
 
-	mul $t6, $t2, $t4  # (nCol - nc - 1) * nFil
-	sub $t6, $t6, $t1  # (nCol - nc - 1) * nFil - nf
-	sub $t6, $t6, 1    # (nCol - nc - 1) * nFil - nf - 1
-	add $t6, $t6, $t0  # (nCol - nc - 1) * nFil - nf - 1 + nFil
-	mul $t6, $t6, 4    # ((nCol - nc - 1) * nFil - nf - 1 + nFil) * 4
-	add $t6, $t6, $a0  # Dirección de memoria del elemento a intercambiar
+	#Calculamos la direccion del elemento opuiesto
+	sub $t6, $t0, $a1 #nFil - nf
+	sub $t6, $t6, 1 #nfil - nf - 1
+	sub $t7, $t1, $a2 #nCol - nc
+	sub $t7, $t7, 1 #nCol - nc - 1
 
-	move $a1, $t6
+	mul $t8, $t6, $t1 # indiceFila * nCol
+	addu $t8, $t8, $t7 #indFila * nCol + indCol
+	mul $t8, $t8, 4 #(indFila * nCol + indCol) * tamaño_elemento
+	addu $t8, $t8, $t5 #Direccion de mat1[indFila, indCol]	
+
+	move $a1, $t8
 	jal swap
 
 intercambia_fin: jr $ra	
@@ -431,7 +430,12 @@ cambiar_elemento:
 
 	li $v0, 5
 	syscall
-	move $t0, $v0
+	move $t0, $v0 
+
+	#Comprobamos que el indice introducido sea valido
+	lw $t2, 0($s0)
+	bge $t0, $t2, error_indice_fila
+	bltz $t0, error_indice_fila
 
 	li $v0, 4
 	la $a0, str_indCol
@@ -441,7 +445,11 @@ cambiar_elemento:
 	syscall
 	move $t1, $v0
 
-	#Pedimos al usuario el nuevo valor del elemento
+	#Comprobamos que el indice introducido sea valido
+	lw $t2, 4($s0)
+	bge $t1, $t2, error_indice_columna	
+	bltz $t1, error_indice_columna
+
 	li $v0, 4
 	la $a0, str_nuevoValor
 	syscall
@@ -451,11 +459,25 @@ cambiar_elemento:
 	mov.s $f12, $f0
 
 	#Llamamos a la funcion que cambia el elemento
-	move $a0, $s0 #Direccion de la matriz
-	move $a1, $t0 #infice de la fila
-	move $a2, $t1 #Indice de la columna
-	
+	move $a0, $s0
+	move $a1, $t0
+	move $a2, $t1
+
 	jal change_elto
+
+	j bucle_menu
+
+	error_indice_fila:
+	li $v0, 4
+	la $a0, str_errorFil
+	syscall
+
+	j bucle_menu
+
+	error_indice_columna:
+	li $v0, 4
+	la $a0, str_errorCol
+	syscall
 
 	j bucle_menu
 
@@ -463,7 +485,7 @@ intercambiar_opuesto:
 	#Pedimos al usuario que elemento quiere intercambiar
 	li $v0, 4
 	la $a0, str_indFila
-	syscall
+	syscall 	
 
 	li $v0, 5
 	syscall
@@ -477,14 +499,13 @@ intercambiar_opuesto:
 	syscall
 	move $t1, $v0
 
-	#Llamamos a la funcion que intercambia el elemento
-	move $a0, $s0
+	#Cargamos los parametros que se le pasan a la funcion 
+	move $a0, $s0 
 	move $a1, $t0
 	move $a2, $t1
+
 	jal intercambia
-
 	
-
 	j bucle_menu
 
 encontrar_minimo:
