@@ -449,6 +449,7 @@ cambiar_elemento:
 	li $v0, 6
 	syscall
 	mov.s $f12, $f0
+
 	#Llamamos a la funcion que cambia el elemento
 	move $a0, $s0 #Direccion de la matriz
 	move $a1, $t0 #infice de la fila
@@ -482,7 +483,7 @@ intercambiar_opuesto:
 	move $a2, $t1
 	jal intercambia
 
-	#Imprimimos la matriz con el nuevo elemento
+	
 
 	j bucle_menu
 
