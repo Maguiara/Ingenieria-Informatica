@@ -215,15 +215,16 @@ change_elto_fin: jr $ra
 
 #Funcion para intercambiar el contenido de dos posiciones de memorias en las que se encuentra un float 
 swap:
-	# Guardar los parámetros en registros
-	move $t0, $a0   # Dirección de memoria del primer elemento
-	move $t1, $a1   # Dirección de memoria del segundo elemento
+	lw $t0, 0($a0) # Numero de filas
+	lw $t1, 4($a0) # Numero de columnas
+	addi $t2, $a0, 8 # Primera dirección de los elementos
 
-	# Intercambio de los elementos
-	lwc1 $f0, 0($t0) # Cargamos el primer elemento
-	lwc1 $f1, 0($t1) # Cargamos el segundo elemento
-	swc1 $f1, 0($t0) # Guardamos el segundo elemento en la primera posición
-	swc1 $f0, 0($t1) # Guardamos el primer elemento en la segunda posición
+
+	# Guardar los parámetros en registros
+	# a1 = dirección del primer elemento
+	# a2 = dirección del segundo elemento	
+	swc1 $f14, 0($a2) # Guardamos el primer elemento en la segunda dirección
+	swc1 $f12, 0($a1) # Guardamos el segundo elemento en la primera dirección
 
 	# Retorno de la función
 swap_fin: jr $ra
@@ -233,6 +234,7 @@ swap_fin: jr $ra
 
 intercambia:
 	#Calculamos la direccion del elemento que introdujo el usuario
+	
 	lw $t0, 0($a0) #Numero de filas
 	lw $t1, 4($a0) #Numero de columnas
 	addi $t5, $a0, 8 #Dirrecion del primer elemento de la columna 
@@ -240,9 +242,9 @@ intercambia:
 	mul $t4, $a1, $t1 # indiceFila * nCol
 	addu $t4, $t4, $a2 #indFila * nCol + indCol
 	mul $t4, $t4, 4 #(indFila * nCol + indCol) * tamaño_elemento
-	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]	
+	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]
+	lwc1 $f1, 0($t4) #Cargamos el primer elemento	
 
-	move $a0,  $t4
 
 	#Calculamos la direccion del elemento opuiesto
 	sub $t6, $t0, $a1 #nFil - nf
@@ -253,10 +255,14 @@ intercambia:
 	mul $t8, $t6, $t1 # indiceFila * nCol
 	addu $t8, $t8, $t7 #indFila * nCol + indCol
 	mul $t8, $t8, 4 #(indFila * nCol + indCol) * tamaño_elemento
-	addu $t8, $t8, $t5 #Direccion de mat1[indFila, indCol]	
+	addu $t8, $t8, $t5 #Direccion de mat1[indFila, indCol]
+	lwc1 $f2, 0($t8) #Cargamos el segundo elemento
 
-	move $a1, $t8
-	jal swap
+	#Llamamos a la funcion que intercambia los elementos
+	
+
+	swc1 $f2, 0($t4) # Guardamos el primer elemento en la segunda dirección
+	swc1 $f1, 0($t8) # Guardamos el segundo elemento en la primera dirección
 
 intercambia_fin: jr $ra	
 	
@@ -491,18 +497,29 @@ intercambiar_opuesto:
 	syscall
 	move $t0, $v0
 
+	#Comprobamos que el indice introducido sea valido
+	lw $t2, 0($s0)
+	bge $t0, $t2, error_indice_fila
+	bltz $t0, error_indice_fila
+
 	li $v0, 4
 	la $a0, str_indCol
 	syscall
+
 
 	li $v0, 5
 	syscall
 	move $t1, $v0
 
+	#Comprobamos que el indice introducido sea valido
+	lw $t2, 4($s0)
+	bge $t1, $t2, error_indice_columna	
+	bltz $t1, error_indice_columna
+
 	#Cargamos los parametros que se le pasan a la funcion 
-	move $a0, $s0 
-	move $a1, $t0
-	move $a2, $t1
+	move $a0, $s0 #Direccion de la Mat seleccionada
+	move $a1, $t0 #Fila del elemento a cambiar
+	move $a2, $t1 #Columna del elemento a cambiar
 
 	jal intercambia
 	
