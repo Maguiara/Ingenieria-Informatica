@@ -51,8 +51,9 @@ bool IsNotZero(const double val, const double eps = EPS) {
 // constructor
 SllPolynomial::SllPolynomial(const vector_t<double>& v, const double eps) {
   for (int i = 0; i < v.get_size(); i++) {
-    if (IsNotZero(v[i], eps)) {
-      SllPolyNode* aux = new SllPolyNode(pair_double_t(v[i], i));
+    if (IsNotZero(v.at(i), eps)) {
+      pair_double_t par(v.at(i), i);
+      SllPolyNode* aux = new SllPolyNode(par);
       push_front(aux);
     }
   }
@@ -105,7 +106,21 @@ double SllPolynomial::Eval(const double x) const {
 // Comparación si son iguales dos polinomios representados por listas simples
 bool SllPolynomial::IsEqual(const SllPolynomial& sllpol, const double eps) const {
   bool differents = false;
- 
+  SllPolyNode* aux = get_head();
+  SllPolyNode* aux2 = sllpol.get_head();
+  while (aux != NULL and aux2 != NULL and !differents) {
+    int inx = aux->get_data().get_inx();
+    double val = aux->get_data().get_val();
+    int inx2 = aux2->get_data().get_inx();
+    double val2 = aux2->get_data().get_val();
+    if (inx == inx2) {
+      differents = IsNotZero(val - val2, eps);
+    } else {
+      differents = true;
+    }
+    aux = aux -> get_next();
+    aux2 = aux2 -> get_next();
+  }
 
   return !differents;
 }
@@ -122,15 +137,18 @@ void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, c
     double val2 = aux2->get_data().get_val();
     if (inx == inx2) {
       if (IsNotZero(val + val2, eps)) {
-       SllPolyNode* sllpolsum = new SllPolyNode(pair_double_t(val + val2, inx)); 
+        pair_double_t par(val + val2, inx);
+        sllpolsum.Sum() = new SllPolyNode(par); 
       }
     } else if (inx < inx2) {
       if (IsNotZero(val, eps)) {
-       SllPolyNode* sllpolsum = new SllPolyNode(pair_double_t(val, inx));
+        pair_double_t par(val, inx);
+        sllpolsum.Sum() = new SllPolyNode(par);
       }
     } else {
       if (IsNotZero(val2, eps)) {
-       SllPolyNode* sllpolsum = new SllPolyNode(pair_double_t(val2, inx2));
+        pair_double_t par(val2, inx);
+        sllpolsum.Sum() = new SllPolyNode(par);
       }
     }
     aux = aux -> get_next();
