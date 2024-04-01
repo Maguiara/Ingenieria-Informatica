@@ -223,8 +223,8 @@ swap:
 	# Guardar los parámetros en registros
 	# a1 = dirección del primer elemento
 	# a2 = dirección del segundo elemento	
-	swc1 $f14, 0($a2) # Guardamos el primer elemento en la segunda dirección
-	swc1 $f12, 0($a1) # Guardamos el segundo elemento en la primera dirección
+	swc1 $f14, 0($a1) # Guardamos el primer elemento en la segunda dirección
+	swc1 $f12, 0($a2) # Guardamos el segundo elemento en la primera dirección
 
 	# Retorno de la función
 swap_fin: jr $ra
@@ -260,10 +260,10 @@ intercambia:
 
 	#Llamamos a la funcion que intercambia los elementos
 	
+	swc1 $f2 , 0($t4) #Guardamos el segundo elemento en la primera direccion
+	swc1 $f1 , 0($t8) #Guardamos el primer elemento en la segunda direccion
 
-	swc1 $f2, 0($t4) # Guardamos el primer elemento en la segunda dirección
-	swc1 $f1, 0($t8) # Guardamos el segundo elemento en la primera dirección
-
+	
 intercambia_fin: jr $ra	
 	
 #Funcion para encontrar el minimo de una matriz
