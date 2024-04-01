@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/Grafos.dir/src/main.cpp.o CMakeFiles/Grafos.dir/src/grafo.cpp.o  -o Grafos 
