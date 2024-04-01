@@ -130,27 +130,30 @@ bool SllPolynomial::IsEqual(const SllPolynomial& sllpol, const double eps) const
 void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, const double eps) {
   SllPolyNode* aux = get_head();
   SllPolyNode* aux2 = sllpol.get_head();
-  while (aux != NULL and aux2 != NULL) {
+  SllPolyNode* aux_suma; 
+  while ( aux != NULL and aux2 != NULL) {
     int inx = aux->get_data().get_inx();
     double val = aux->get_data().get_val();
     int inx2 = aux2->get_data().get_inx();
     double val2 = aux2->get_data().get_val();
-    if (inx == inx2) {
+    if (aux != NULL and aux2 != NULL and inx == inx2) {
       if (IsNotZero(val + val2, eps)) {
         pair_double_t par(val + val2, inx);
-        sllpolsum.Sum() = new SllPolyNode(par); 
+        aux_suma = new SllPolyNode(par); 
       }
-    } else if (inx < inx2) {
+    } else if (aux2 == NULL or inx < inx2) {
       if (IsNotZero(val, eps)) {
         pair_double_t par(val, inx);
-        sllpolsum.Sum() = new SllPolyNode(par);
+        aux_suma = new SllPolyNode(par);
       }
     } else {
       if (IsNotZero(val2, eps)) {
         pair_double_t par(val2, inx);
-        sllpolsum.Sum() = new SllPolyNode(par);
+        aux_suma = new SllPolyNode(par);
+        
       }
     }
+    sllpolsum.push_front(aux_suma);
     aux = aux -> get_next();
     aux2 = aux2 -> get_next();
   }
