@@ -48,11 +48,10 @@ void GRAFO::build (string nombrefichero, int &errorapertura) {
         LP[j - 1].push_back(dummy);
       }  
 			if (dirigido == 0) {
-        dummy.j = i - 1;
         LS[i - 1].push_back(dummy);
+        dummy.j = i - 1;
 				if (dummy.j != i - 1) {
-					dummy.j = i - 1;
-					LS[i - 1].push_back(dummy);
+					LS[j - 1].push_back(dummy);
 				}
       }
     }
@@ -194,16 +193,15 @@ void GRAFO::RecorridoProfundidad() {
     //Imprimimos por pantalla prenum y postnum
 	cout << "Recorrido en preorden: ";
 	for (unsigned i = 0; i < prenum.size(); i++) {
-		cout << "[" << prenum[i] << "] -> ";
+		(i == prenum.size() - 1) ? cout << "[" << prenum[i] << "]" : cout << "[" << prenum[i] << "] -> ";
 	}
 	cout << endl;
 
 	cout << "Recorrido en postorden: ";
 	for (unsigned i = 0; i < postnum.size(); i++) {
-		cout << "[" << postnum[i] << "] -> ";
+		(i == postnum.size() - 1) ? cout << "[" << postnum[i] << "]" : cout << "[" << postnum[i] << "] -> ";
 	}
 	cout << endl;
-
 }
 
  void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en amplitud
@@ -261,8 +259,31 @@ void GRAFO::RecorridoAmplitud() { //Construye un recorrido en amplitud desde un 
 	}
     
   bfs_num(i - 1, LS, pred, d);
+	 cout << "Distancia entre el nodo inicial y el resto, expresado en el número de arcos" << endl << endl;
 
-  //Imprimimos por pantalla la infomracion de pred y d
-	cout << "Nodo inicial " << i << endl;	
+vector<vector<int>> groupedDistances(d.size());
 
-} 
+for(int i = 0; i < d.size(); ++i) {
+	groupedDistances[d[i]].push_back(i + 1);
+}
+
+for(int i = 0; i < groupedDistances.size(); ++i) {
+	if(groupedDistances[i].size() > 0) {
+		cout << "Distancia " << i << " aristas: ";
+		for(int j = 0; j < groupedDistances[i].size(); ++j) {
+			cout << groupedDistances[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+cout << endl;
+
+// Mostramos los predecesores
+cout << "Predecesores de cada nodo" << endl << endl;
+for(int i{0}; i < pred.size(); ++i) {
+	cout << "Predecesor de " << i + 1 << " : ";
+	cout << pred[i] + 1 << endl;
+}
+cout << endl;
+}	
+ 

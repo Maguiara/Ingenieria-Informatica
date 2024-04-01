@@ -20,6 +20,8 @@ void menu (unsigned dirigido, char &opcion)
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "a. Mostrar la lista de [a]dyacencia del grafo" << endl;
 						cout << "y. mostrar matriz de ad[y]acencia del grafo" << endl;
+            cout << "r. Mostrar recorrido en p[r]ofundidad del grafo desde un nodo por sucesores" << endl;
+            cout << "m. Mostrar recorrido en a[m]plitud del grafo desde un nodo por sucesores" << endl;
 	    //Aqu� se a�aden m�s opciones al men� del grafo no dirigido
             }
     else
@@ -27,6 +29,9 @@ void menu (unsigned dirigido, char &opcion)
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "s. Mostrar la lista de [s]ucesores del grafo" << endl;
             cout << "p. Mostrar la lista de [p]redecesores del grafo" << endl;
+            cout << "y. mostrar matriz de ad[y]acencia del grafo" << endl;
+            cout << "r. Mostrar recorrido en p[r]ofundidad del grafo desde un nodo por sucesores" << endl;
+            cout << "m. Mostrar recorrido en a[m]plitud del grafo desde un nodo por sucesores" << endl;
 	    //Aqu� se a�aden m�s opciones al men� del grafo dirigido
             };
     cout << "q. Finalizar el programa" << endl;
@@ -87,6 +92,15 @@ int main(int argc, char *argv[]) {
 				case 'y' :
 					G.Mostrar_Matriz();
 					break;
+
+        case 'r' :
+          G.RecorridoProfundidad();
+          break;
+        
+        case 'm' :
+          G.RecorridoAmplitud();
+          break;
+          
 
 
 		 //Situar aqu� el resto de opciones del men�

@@ -108,55 +108,69 @@ bool SllPolynomial::IsEqual(const SllPolynomial& sllpol, const double eps) const
   bool differents = false;
   SllPolyNode* aux = get_head();
   SllPolyNode* aux2 = sllpol.get_head();
-  while (aux != NULL and aux2 != NULL and !differents) {
-    int inx = aux->get_data().get_inx();
-    double val = aux->get_data().get_val();
-    int inx2 = aux2->get_data().get_inx();
-    double val2 = aux2->get_data().get_val();
-    if (inx == inx2) {
-      differents = IsNotZero(val - val2, eps);
+  while (aux != NULL || aux2 != NULL and !differents) {
+    if (aux == NULL) {
+      differents = IsNotZero(aux2->get_data().get_val(), eps);
+      aux2 = aux2->get_next();
+    } else if (aux2 == NULL) {
+      differents = IsNotZero(aux->get_data().get_val(), eps);
+      aux = aux->get_next();
     } else {
-      differents = true;
+      if (aux->get_data().get_inx() == aux2->get_data().get_inx()) {
+        differents = IsNotZero(aux->get_data().get_val() - aux2->get_data().get_val(), eps);
+        aux = aux->get_next();
+        aux2 = aux2->get_next();
+      } else if (aux->get_data().get_inx() > aux2->get_data().get_inx()) {
+        differents = IsNotZero(aux->get_data().get_val(), eps);
+        aux = aux->get_next();
+      } else {
+        differents = IsNotZero(aux2->get_data().get_val(), eps);
+        aux2 = aux2->get_next();
+      }
     }
-    aux = aux -> get_next();
-    aux2 = aux2 -> get_next();
   }
-
   return !differents;
-}
+}  
 
 // FASE IV
 // Generar nuevo polinomio suma del polinomio invocante mas otro polinomio
 void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, const double eps) {
   SllPolyNode* aux = get_head();
   SllPolyNode* aux2 = sllpol.get_head();
-  SllPolyNode* aux_suma; 
-  while ( aux != NULL and aux2 != NULL) {
-    int inx = aux->get_data().get_inx();
-    double val = aux->get_data().get_val();
-    int inx2 = aux2->get_data().get_inx();
-    double val2 = aux2->get_data().get_val();
-    if (aux != NULL and aux2 != NULL and inx == inx2) {
-      if (IsNotZero(val + val2, eps)) {
-        pair_double_t par(val + val2, inx);
-        aux_suma = new SllPolyNode(par); 
-      }
-    } else if (aux2 == NULL or inx < inx2) {
-      if (IsNotZero(val, eps)) {
-        pair_double_t par(val, inx);
-        aux_suma = new SllPolyNode(par);
-      }
+
+  while (aux != NULL || aux2 != NULL) {
+    if (aux == NULL) {
+      pair_double_t par(aux2->get_data().get_val(), aux2->get_data().get_inx());
+      SllPolyNode* aux3 = new SllPolyNode(par);
+      sllpolsum.push_front(aux3);
+      aux2 = aux2->get_next();
+    } else if (aux2 == NULL) {
+      pair_double_t par(aux->get_data().get_val(), aux->get_data().get_inx());
+      SllPolyNode* aux3 = new SllPolyNode(par);
+      sllpolsum.push_front(aux3);
+      aux = aux->get_next();
     } else {
-      if (IsNotZero(val2, eps)) {
-        pair_double_t par(val2, inx);
-        aux_suma = new SllPolyNode(par);
-        
+      if (aux->get_data().get_inx() == aux2->get_data().get_inx()) {
+        if (IsNotZero(aux->get_data().get_val() + aux2->get_data().get_val(), eps)) {
+          pair_double_t par(aux->get_data().get_val() + aux2->get_data().get_val(), aux->get_data().get_inx());
+          SllPolyNode* aux3 = new SllPolyNode(par);
+          sllpolsum.push_front(aux3);
+        }
+        aux = aux->get_next();
+        aux2 = aux2->get_next();
+      } else if (aux->get_data().get_inx() > aux2->get_data().get_inx()) {
+        pair_double_t par(aux->get_data().get_val(), aux->get_data().get_inx());
+        SllPolyNode* aux3 = new SllPolyNode(par);
+        sllpolsum.push_front(aux3);
+        aux = aux->get_next();
+      } else {
+        pair_double_t par(aux2->get_data().get_val(), aux2->get_data().get_inx());
+        SllPolyNode* aux3 = new SllPolyNode(par);
+        sllpolsum.push_front(aux3);
+        aux2 = aux2->get_next();
       }
     }
-    sllpolsum.push_front(aux_suma);
-    aux = aux -> get_next();
-    aux2 = aux2 -> get_next();
   }
+} 
 
-}
 #endif  // SLLPOLYNOMIAL_H_
