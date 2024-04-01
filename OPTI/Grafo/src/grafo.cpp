@@ -50,7 +50,7 @@ void GRAFO::build (string nombrefichero, int &errorapertura) {
 			if (dirigido == 0) {
         LS[i - 1].push_back(dummy);
         dummy.j = i - 1;
-				if (dummy.j != i - 1) {
+				if ( (j - 1) != (i - 1)) {
 					LS[j - 1].push_back(dummy);
 				}
       }
@@ -89,7 +89,6 @@ unsigned GRAFO::Es_dirigido() {
 void GRAFO::Info_Grafo() {
 	cout << endl;
 	cout << "Número de nodos: " << n << endl;
-	cout << "Orden del grafo: " << n << endl;
 	cout << "Número de arcos: " << m << endl;
 	cout << "Tipo de grafo" << (dirigido == 1 ? " Dirigido " : " No dirigido");
 	cout << endl << endl;
@@ -159,12 +158,12 @@ void GRAFO::Mostrar_Matriz() {
 
 void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vector<unsigned> &prenum, unsigned &prenum_ind, vector<unsigned> &postnum, unsigned &postnum_ind) { //Recorrido en profundidad recursivo con recorridos enum y postnum
 	visitado[i] = true;
-  prenum[prenum_ind++]=i;//asignamos el orden de visita prenum que corresponde el nodo i
+  prenum[prenum_ind++]=i + 1;//asignamos el orden de visita prenum que corresponde el nodo i
   for (unsigned j=0;j<L[i].size();j++)
     if (!visitado[L[i][j].j]) {
       dfs_num(L[i][j].j, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
   	}
-  postnum[postnum_ind++]=i;//asignamos el orden de visita posnum que corresponde al nodo i
+  postnum[postnum_ind++]=i + 1 ;//asignamos el orden de visita posnum que corresponde al nodo i
 }
 
 void GRAFO::RecorridoProfundidad() {
@@ -179,27 +178,27 @@ void GRAFO::RecorridoProfundidad() {
 
   unsigned prenum_ind = 0;
   unsigned postnum_ind = 0;
-  unsigned i = 0;
+  unsigned nodo_solicitado = 0;
 
   cout << "Introduzca el nodo inicial: [1 - " << n << "]" << endl;
-  cin >> (unsigned &) i;
+  cin >> (unsigned &) nodo_solicitado;
 
-	while (i < 1 || i > n) {
+	while (nodo_solicitado < 1 || nodo_solicitado > n) {
 		cout << "El nodo introducido no es válido. Introduzca un nodo entre [1 y " << n << "]" << endl;
-		cin >> (unsigned &) i;
+		cin >> (unsigned &) nodo_solicitado;
 	}
 
-  dfs_num(i - 1, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
+  dfs_num(nodo_solicitado - 1, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
     //Imprimimos por pantalla prenum y postnum
 	cout << "Recorrido en preorden: ";
-	for (unsigned i = 0; i < prenum.size(); i++) {
-		(i == prenum.size() - 1) ? cout << "[" << prenum[i] << "]" : cout << "[" << prenum[i] << "] -> ";
+	for (unsigned i = 0; i < prenum.size() - 1; i++) {
+		(i == prenum_ind- 1) ? cout << "[" << prenum[i] << "]" : cout << "[" << prenum[i] << "] -> ";
 	}
 	cout << endl;
 
 	cout << "Recorrido en postorden: ";
-	for (unsigned i = 0; i < postnum.size(); i++) {
-		(i == postnum.size() - 1) ? cout << "[" << postnum[i] << "]" : cout << "[" << postnum[i] << "] -> ";
+	for (unsigned i = 0; i < postnum.size() - 1; i++) {
+		(i == postnum_ind - 1) ? cout << "[" << postnum[i] << "]" : cout << "[" << postnum[i]  << "] -> ";
 	}
 	cout << endl;
 }
@@ -247,8 +246,8 @@ void GRAFO::RecorridoProfundidad() {
 void GRAFO::RecorridoAmplitud() { //Construye un recorrido en amplitud desde un nodo inicial 
 
   unsigned i = 0;
-	vector<unsigned> pred;
-	vector<unsigned> d;
+	vector<unsigned> pred(n, UERROR);
+	vector<unsigned> d(n, maxint);
 
   cout << "Introduzca el nodo inicial (1 <= nodo_introducido <= n) " << endl;
   cin >> (unsigned &) i;
@@ -259,31 +258,41 @@ void GRAFO::RecorridoAmplitud() { //Construye un recorrido en amplitud desde un 
 	}
     
   bfs_num(i - 1, LS, pred, d);
-	 cout << "Distancia entre el nodo inicial y el resto, expresado en el número de arcos" << endl << endl;
-
-vector<vector<int>> groupedDistances(d.size());
-
-for(int i = 0; i < d.size(); ++i) {
-	groupedDistances[d[i]].push_back(i + 1);
-}
-
-for(int i = 0; i < groupedDistances.size(); ++i) {
-	if(groupedDistances[i].size() > 0) {
-		cout << "Distancia " << i << " aristas: ";
-		for(int j = 0; j < groupedDistances[i].size(); ++j) {
-			cout << groupedDistances[i][j] << " ";
+	cout << "Nodos segun distancia al nodo inicial en numero de aristas" << endl;
+	for (int dist = 0; dist < n; dist++) {
+		bool distanciaVacia = true; // Variable para verificar si la distancia está vacía
+		cout << "Distancia " << dist << ": ";
+		for (int nodo = 0; nodo < n; nodo++) {
+			if (d[nodo] == dist) {
+				cout << nodo + 1 << " ";
+				distanciaVacia = false; // La distancia no está vacía
+			}
+		}
+		if (distanciaVacia) {
+			break; // Si la distancia está vacía, salimos del bucle
 		}
 		cout << endl;
 	}
-}
-cout << endl;
+	cout << endl;
 
-// Mostramos los predecesores
-cout << "Predecesores de cada nodo" << endl << endl;
-for(int i{0}; i < pred.size(); ++i) {
-	cout << "Predecesor de " << i + 1 << " : ";
-	cout << pred[i] + 1 << endl;
+	cout << "Ramas de conexiones" << endl;
+	for (unsigned i = 0; i < pred.size(); i++) {
+		if (pred[i] != UERROR) {
+			vector<unsigned> ramas;
+			unsigned nodo_actual = i;
+			while (nodo_actual != pred[nodo_actual]) {
+				ramas.push_back(nodo_actual + 1);
+				nodo_actual = pred[nodo_actual];
+			}
+			ramas.push_back(nodo_actual + 1);
+			for (int j = ramas.size() - 1; j >= 0; j--) {
+				cout << ramas[j];
+				if (j != 0) {
+					cout << " - ";
+				}
+			}
+			cout << endl;
+		}
+	}
+
 }
-cout << endl;
-}	
- 
