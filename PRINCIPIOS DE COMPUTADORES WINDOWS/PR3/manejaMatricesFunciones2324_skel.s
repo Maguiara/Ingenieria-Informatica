@@ -215,16 +215,16 @@ change_elto_fin: jr $ra
 
 #Funcion para intercambiar el contenido de dos posiciones de memorias en las que se encuentra un float 
 swap:
-	lw $t0, 0($a0) # Numero de filas
-	lw $t1, 4($a0) # Numero de columnas
-	addi $t2, $a0, 8 # Primera dirección de los elementos
 
 
 	# Guardar los parámetros en registros
 	# a1 = dirección del primer elemento
 	# a2 = dirección del segundo elemento	
-	swc1 $f14, 0($a1) # Guardamos el primer elemento en la segunda dirección
-	swc1 $f12, 0($a2) # Guardamos el segundo elemento en la primera dirección
+	lwc1 $f4, 0($a0) #Cargamos el primer elemento
+	lwc1 $f6, 0($a1) #Cargamos el segundo elemento
+
+	swc1 $f6, 0($a0) #Cargamos el segundo elemetno en la primera posicion 
+	swc1 $f4, 0($a1) #Cargamos el primer elemento en la seguna posicion
 
 	# Retorno de la función
 swap_fin: jr $ra
@@ -243,7 +243,6 @@ intercambia:
 	addu $t4, $t4, $a2 #indFila * nCol + indCol
 	mul $t4, $t4, 4 #(indFila * nCol + indCol) * tamaño_elemento
 	addu $t4, $t4, $t5 #Direccion de mat1[indFila, indCol]
-	lwc1 $f1, 0($t4) #Cargamos el primer elemento	
 
 
 	#Calculamos la direccion del elemento opuiesto
@@ -256,13 +255,17 @@ intercambia:
 	addu $t8, $t8, $t7 #indFila * nCol + indCol
 	mul $t8, $t8, 4 #(indFila * nCol + indCol) * tamaño_elemento
 	addu $t8, $t8, $t5 #Direccion de mat1[indFila, indCol]
-	lwc1 $f2, 0($t8) #Cargamos el segundo elemento
 
 	#Llamamos a la funcion que intercambia los elementos
-	
-	swc1 $f2 , 0($t4) #Guardamos el segundo elemento en la primera direccion
-	swc1 $f1 , 0($t8) #Guardamos el primer elemento en la segunda direccion
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
 
+	move $a0, $t4
+	move $a1, $t8
+	jal swap
+
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
 	
 intercambia_fin: jr $ra	
 	
