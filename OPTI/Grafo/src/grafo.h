@@ -45,7 +45,9 @@ private:
 	void destroy();                // Destructor del LS, A, y LP, en su caso
 	void build (string nombrefichero, int &errorapertura); //Crea LS, A y LP en su caso, desde la lectura del fichero
 	void dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vector<unsigned> &prenum, unsigned &prenum_ind, vector<unsigned> &postnum, unsigned &postnum_ind); //Recorrido en profundidad recursivo con recorridos enum y postnum
-    void bfs_num(unsigned i, vector<LA_nodo>  L, vector<unsigned> &pred, vector<unsigned> &d); //Recorrido en amplitud con c�lculo de pred y d
+  void bfs_num(unsigned i, vector<LA_nodo>  L, vector<unsigned> &pred, vector<unsigned> &d); //Recorrido en amplitud con c�lculo de pred y d
+	void DFS_Postnum(unsigned i, vector<bool>& visitado, vector<unsigned>& postnum, unsigned& num); //Calcula postnum para todo nodo i
+	void DFS_Inv(unsigned i, vector<bool>& visitado); 
 public:
      GRAFO(string nombrefichero, int &errorapertura);
      void actualizar (string nombrefichero, int &errorapertura);
@@ -55,6 +57,7 @@ public:
      void Mostrar_Matriz(); //Muestra la matriz de adyacencia: nodos y costes
      void RecorridoProfundidad(); //Construye un recorrido en profundidad desde un nodo inicial
      void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial
+		 void ComponentesFuertementeConexas(); //Algoritmo para el calculo de componentes fuertemente conexas
      ~GRAFO(); //Destructor del objeto grafo
 };
 

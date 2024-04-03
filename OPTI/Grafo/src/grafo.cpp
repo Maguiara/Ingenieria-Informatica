@@ -98,7 +98,7 @@ void Mostrar_Lista(vector<LA_nodo> L) {
 	for (unsigned i = 0; i < L.size(); i++) {
 		cout << "Nodo " << i + 1 << ": ";
 		for (unsigned j = 0; j < L[i].size(); j++) {
-			cout << L[i][j].j + 1 << " ";
+			cout << L[i][j].j + 1 << " (coste:" << L[i][j].c << ") ";
 		}
 		cout << endl;
 	}
@@ -190,18 +190,27 @@ void GRAFO::RecorridoProfundidad() {
 
   dfs_num(nodo_solicitado - 1, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
     //Imprimimos por pantalla prenum y postnum
-	cout << "Recorrido en preorden: ";
-	for (unsigned i = 0; i < prenum.size() - 1; i++) {
-		(i == prenum_ind- 1) ? cout << "[" << prenum[i] << "]" : cout << "[" << prenum[i] << "] -> ";
+	cout << "Recorrido en preorden: [";
+	for (unsigned i = 0; i < prenum_ind; i++) {
+		cout << prenum[i]; 
+		if (i < prenum_ind - 1) {
+			cout << "] -> [";
+		}
 	}
+	cout << "]" << endl;
 	cout << endl;
 
-	cout << "Recorrido en postorden: ";
-	for (unsigned i = 0; i < postnum.size() - 1; i++) {
-		(i == postnum_ind - 1) ? cout << "[" << postnum[i] << "]" : cout << "[" << postnum[i]  << "] -> ";
+	cout << "Recorrido en postorden: [";
+	for (unsigned i = 0; i < postnum_ind;  i++) {
+			cout << postnum[i]; 
+		if (i < postnum_ind - 1) {
+			cout << "] -> [";
+		}
 	}
-	cout << endl;
+	cout << "]" << endl;
+
 }
+
 
  void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en amplitud
 				vector<LA_nodo>  L, //lista que recorremos, LS o LP; por defecto LS
@@ -259,24 +268,24 @@ void GRAFO::RecorridoAmplitud() { //Construye un recorrido en amplitud desde un 
     
   bfs_num(i - 1, LS, pred, d);
 	cout << "Nodos segun distancia al nodo inicial en numero de aristas" << endl;
-	for (int dist = 0; dist < n; dist++) {
+	for (unsigned dist = 0; dist < n ; dist++) {
 		bool distanciaVacia = true; // Variable para verificar si la distancia está vacía
-		cout << "Distancia " << dist << ": ";
-		for (int nodo = 0; nodo < n; nodo++) {
+		for (unsigned nodo = 0; nodo < n; nodo++) {
 			if (d[nodo] == dist) {
+				if (distanciaVacia) {
+					cout << "Distancia " << dist << " aristas: ";
+					distanciaVacia = false; // La distancia no está vacía
+				}
 				cout << nodo + 1 << " ";
-				distanciaVacia = false; // La distancia no está vacía
 			}
 		}
-		if (distanciaVacia) {
-			break; // Si la distancia está vacía, salimos del bucle
+		if (!distanciaVacia) {
+			cout << endl;
 		}
-		cout << endl;
 	}
-	cout << endl;
 
 	cout << "Ramas de conexiones" << endl;
-	for (unsigned i = 0; i < pred.size(); i++) {
+	for (unsigned i = 1; i < pred.size(); i++) {
 		if (pred[i] != UERROR) {
 			vector<unsigned> ramas;
 			unsigned nodo_actual = i;
@@ -294,5 +303,54 @@ void GRAFO::RecorridoAmplitud() { //Construye un recorrido en amplitud desde un 
 			cout << endl;
 		}
 	}
+	cout << endl;
+}
+
+void GRAFO::DFS_Postnum(unsigned i, vector<bool>& visitado, vector<unsigned>& postnum, unsigned& num ) {
+	visitado[i] = true;
+	for (unsigned k{0}; k < LS.size(); k++)
+		for (unsigned j{0}; j < LS[k].size(); j++)
+			if(visitado[j] == false){
+				DFS_Postnum(j, visitado, postnum, num);
+			}
+	postnum[num] = i;
+	num = num + 1; 
+}
+
+void GRAFO::DFS_Inv(unsigned i, vector<bool>& visitado) {
+	visitado[i] = true;
+	for (unsigned k{0}; k < LS.size(); k++)
+		for (unsigned j {0}; j < LS[k].size(); j++) 
+			if (visitado[j] == false ) {
+				DFS_Inv(j, visitado);
+			}
 
 }
+
+void GRAFO::ComponentesFuertementeConexas() {
+	vector<bool> visitado;
+	visitado.resize(n, false);
+	vector<unsigned> postnum;
+	postnum.resize(n, -1); 
+	unsigned num{1}, i{1}, cfc{0}; 
+
+	while (i <= n ){
+		if (visitado[i] == false){
+			DFS_Postnum(i, visitado, postnum, num);
+		}
+		i = i + 1;
+	}
+
+	visitado.resize(n, false);
+	i = n;
+
+	while ( i >= 1) {
+		if (visitado[postnum[i]] == false) {
+			cfc++;
+			cout << "Componente fuertemente conexa numero: " << cfc;
+			DFS_Inv(postnum[i], visitado);
+		}
+		i = i - 1;
+	}
+}
+
