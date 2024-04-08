@@ -138,6 +138,7 @@ print_mat:
 	lw $s1, 4($a0) #Numero de columnas
 	addi $s2, $a0, 8 #Primera direccion de los elementos
 
+
 	#Imprimimos la dimension de la matriz
 	li $v0, 4
 	la $a0, str_matTiene
@@ -156,6 +157,9 @@ print_mat:
 	li $v0, 4
 	la $a0, str_salto
 	syscall
+
+	ble $s0, $zero, print_mat_fin
+	ble $s1, $zero, print_mat_fin
 
 	#Imprimimos los elementos de la matriz
 	mul $s3, $s1, $s0 #Tamaño de la matriz
@@ -449,7 +453,7 @@ cambiar_elemento:
 	#Comprobamos que el indice introducido sea valido
 	lw $t2, 0($s0)
 	bge $s1, $t2, error_indice_fila
-	bltz $t0, error_indice_fila
+	bltz $s1, error_indice_fila
 
 	li $v0, 4
 	la $a0, str_indCol
@@ -462,7 +466,7 @@ cambiar_elemento:
 	#Comprobamos que el indice introducido sea valido
 	lw $t2, 4($s0)
 	bge $s2, $t2, error_indice_columna	
-	bltz $t1, error_indice_columna
+	bltz $s2, error_indice_columna
 
 	li $v0, 4
 	la $a0, str_nuevoValor
