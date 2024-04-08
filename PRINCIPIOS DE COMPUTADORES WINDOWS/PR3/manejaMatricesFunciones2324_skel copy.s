@@ -134,9 +134,9 @@ str_espacio:	.asciiz	" "
 #Funcion para imprimir las matrices por pantalla
 print_mat:
 
-	lw $t0, 0($a0) #Numero de filas
-	lw $t1, 4($a0) #Numero de columnas
-	addi $t2, $a0, 8 #Primera direccion de los elementos
+	lw $s0, 0($a0) #Numero de filas
+	lw $s1, 4($a0) #Numero de columnas
+	addi $s2, $a0, 8 #Primera direccion de los elementos
 
 	#Imprimimos la dimension de la matriz
 	li $v0, 4
@@ -144,13 +144,13 @@ print_mat:
 	syscall
 
 	li $v0, 1
-	move $a0, $t0
+	move $a0, $s0
 	syscall
 	li $v0, 4
 	la $a0, str_matx
 	syscall
 	li $v0, 1
-	move $a0, $t1
+	move $a0, $s1
 	syscall
 
 	li $v0, 4
@@ -158,39 +158,37 @@ print_mat:
 	syscall
 
 	#Imprimimos los elementos de la matriz
-	mul $t3, $t0, $t1 #Tamaño de la matriz
-	li $t4, 0 #Indice de los elementos
-	li $t5, 0 #Indice de columna
-	li.s $f1, 0.0 #Comprobar que sea igual a 0.0
+	mul $s3, $s1, $s0 #Tamaño de la matriz
+	li $s4, 0 #Indice de los elementos
+	li $s5, 0 #Indice de columnas
 	j bucle_imprimir
 
 	salto_linea:
 	li $v0, 4
 	la $a0, str_salto
 	syscall
-	li $t5, 0 #Reiniciamos el indice de columna
-	
+	li $s5, 0 #Reiniciamos el contador de columnas
+
 	j comprobar_fin
 
-	bucle_imprimir: 
-	lwc1 $f0, 0($t2) #Cargamos el elemento
-	#Imprimimos el elemento
-	c.eq.s $f0, $f1
-	bc1t comprobar_fin
+	bucle_imprimir:
+	lwc1 $f20, 0($s2)
+
 	li $v0, 2
-	mov.s $f12, $f0
+	mov.s $f12, $f20
 	syscall
+
 	li $v0, 4
 	la $a0, str_espacio
 	syscall
 
-	add $t5, $t5, 1
-	beq $t5, $t1, salto_linea
+	add $s5, $s5, 1
+	beq $s5, $s1, salto_linea
 
 	comprobar_fin:
-	add $t4, $t4, 1
-	addu $t2, $t2, 4
-	blt $t4, $t3, bucle_imprimir
+	add $s4, $s4, 1
+	addu $s2, $s2, 4
+	blt $s4, $s3, bucle_imprimir
 
 print_mat_fin: jr $ra
 
@@ -295,6 +293,7 @@ find_min:
 	move $v0, $t2
 	move $v1, $t3
 	j actualizar_direccion
+	
 
 	bucle1: 
 	move $t3, $zero #reiniciamos el contador de columnas
@@ -328,7 +327,13 @@ main:
 bucle_menu:
 
 	move $a0, $s0
+	addi $sp, $sp, -4
+	sw $s0, 0($sp)
+
 	jal print_mat
+
+	lw $s0, 0($sp)
+	addi $sp, $sp, 4
 
 	li $v0, 4
 	la $a0, str_salto
@@ -402,7 +407,6 @@ cambiar_matriz_de_trabajo:
 
 	#Imprimimos la matriz escogida
 	mat1_selected:
-	la $s0, mat1
 	j bucle_menu
 
 	mat2_selected:
@@ -440,11 +444,11 @@ cambiar_elemento:
 
 	li $v0, 5
 	syscall
-	move $t0, $v0 
+	move $s1, $v0 
 
 	#Comprobamos que el indice introducido sea valido
 	lw $t2, 0($s0)
-	bge $t0, $t2, error_indice_fila
+	bge $s1, $t2, error_indice_fila
 	bltz $t0, error_indice_fila
 
 	li $v0, 4
@@ -453,11 +457,11 @@ cambiar_elemento:
 
 	li $v0, 5
 	syscall
-	move $t1, $v0
+	move $s2, $v0
 
 	#Comprobamos que el indice introducido sea valido
 	lw $t2, 4($s0)
-	bge $t1, $t2, error_indice_columna	
+	bge $s2, $t2, error_indice_columna	
 	bltz $t1, error_indice_columna
 
 	li $v0, 4
@@ -470,8 +474,8 @@ cambiar_elemento:
 
 	#Llamamos a la funcion que cambia el elemento
 	move $a0, $s0
-	move $a1, $t0
-	move $a2, $t1
+	move $a1, $s1
+	move $a2, $s2
 
 	jal change_elto
 
@@ -499,12 +503,12 @@ intercambiar_opuesto:
 
 	li $v0, 5
 	syscall
-	move $t0, $v0
+	move $s1, $v0
 
 	#Comprobamos que el indice introducido sea valido
 	lw $t2, 0($s0)
-	bge $t0, $t2, error_indice_fila
-	bltz $t0, error_indice_fila
+	bge $s1, $t2, error_indice_fila
+	bltz $s1, error_indice_fila
 
 	li $v0, 4
 	la $a0, str_indCol
@@ -513,17 +517,17 @@ intercambiar_opuesto:
 
 	li $v0, 5
 	syscall
-	move $t1, $v0
+	move $s2, $v0
 
 	#Comprobamos que el indice introducido sea valido
 	lw $t2, 4($s0)
-	bge $t1, $t2, error_indice_columna	
-	bltz $t1, error_indice_columna
+	bge $s2, $t2, error_indice_columna	
+	bltz $s2, error_indice_columna
 
 	#Cargamos los parametros que se le pasan a la funcion 
 	move $a0, $s0 #Direccion de la Mat seleccionada
-	move $a1, $t0 #Fila del elemento a cambiar
-	move $a2, $t1 #Columna del elemento a cambiar
+	move $a1, $s1 #Fila del elemento a cambiar
+	move $a2, $s2 #Columna del elemento a cambiar
 
 	jal intercambia
 	
