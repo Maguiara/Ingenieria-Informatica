@@ -121,11 +121,7 @@ str_indCol:	.asciiz	"Indice de columna: "
 str_nuevoValor:	.asciiz	"Nuevo valor para el elemento: "
 str_valMin:	.asciiz	"\nEl valor minimo esta en ("
 str_conValor:	.asciiz	") con valor "
-str_matx: .asciiz "x"
-str_coma: .asciiz ","
 str_matTiene:	.asciiz	"\n\nLa matriz tiene dimension "
-str_salto:	.asciiz	"\n"
-str_espacio:	.asciiz	" "
 
 #Para escoger si una variable es temporal o salvada debemos preguntar: ¿Hay syscall de por medio?
 
@@ -134,10 +130,15 @@ str_espacio:	.asciiz	" "
 #Funcion para imprimir las matrices por pantalla
 print_mat:
 
-	lw $s0, 0($a0) #Numero de filas
-	lw $s1, 4($a0) #Numero de columnas
-	addi $s2, $a0, 8 #Primera direccion de los elementos
+	lw $t0, 0($a0) #Numero de filas
+	lw $t1, 4($a0) #Numero de columnas
+	addi $t2, $a0, 8 #Primera direccion de los elementos
 
+	addi $sp, $sp, -16
+	sw $t0, 0($s0)
+	sw $t1, 4($sp)
+	sw $t2, 8($sp)
+	sw $ra, 12($sp)
 
 	#Imprimimos la dimension de la matriz
 	li $v0, 4
@@ -145,54 +146,60 @@ print_mat:
 	syscall
 
 	li $v0, 1
-	move $a0, $s0
+	lw $a0, 0($sp)
 	syscall
-	li $v0, 4
-	la $a0, str_matx
+	li $v0, 11
+	la $a0, 78 
 	syscall
 	li $v0, 1
-	move $a0, $s1
+	lw $a0, 4($sp)
 	syscall
 
-	li $v0, 4
-	la $a0, str_salto
+	li $v0, 11
+	la $a0, LF
 	syscall
 
-	ble $s0, $zero, print_mat_fin
-	ble $s1, $zero, print_mat_fin
+	lw $t0, 0($sp)
+	lw $t1, 4($sp)	
+	ble $t0, $zero, fin_bucle_imprimir
+	ble $t1, $zero, fin_bucle_imprimir
 
 	#Imprimimos los elementos de la matriz
-	mul $s3, $s1, $s0 #Tamaño de la matriz
-	li $s4, 0 #Indice de los elementos
-	li $s5, 0 #Indice de columnas
+	mul $t3, $t1, $t0 #Tamaño de la matriz
+	li $t4, 0 #Indice de los elementos
+	li $t5, 0 #Indice de columnas
 	j bucle_imprimir
 
 	salto_linea:
-	li $v0, 4
-	la $a0, str_salto
+	li $v0, 11
+	la $a0, LF
 	syscall
-	li $s5, 0 #Reiniciamos el contador de columnas
+	li $t5, 0 #Reiniciamos el contador de columnas
 
 	j comprobar_fin
 
 	bucle_imprimir:
-	lwc1 $f20, 0($s2)
-
+	lwc1 $f20, 0($t2)
 	li $v0, 2
 	mov.s $f12, $f20
 	syscall
-
-	li $v0, 4
-	la $a0, str_espacio
+	li $v0, 11
+	la $a0, 32
 	syscall
 
 	add $s5, $s5, 1
 	beq $s5, $s1, salto_linea
 
 	comprobar_fin:
-	add $s4, $s4, 1
-	addu $s2, $s2, 4
-	blt $s4, $s3, bucle_imprimir
+	add $t4, $t4, 1
+	addu $t2, $t2, 4
+	blt $t4, $t3, bucle_imprimir
+
+	fin_bucle_imprimir:
+	#Limpiamos todos los registros usados
+
+	lw $ra, 12($sp)
+	addi $sp, $sp, 16
 
 print_mat_fin: jr $ra
 
@@ -331,16 +338,10 @@ main:
 bucle_menu:
 
 	move $a0, $s0
-	addi $sp, $sp, -4
-	sw $s0, 0($sp)
-
 	jal print_mat
 
-	lw $s0, 0($sp)
-	addi $sp, $sp, 4
-
-	li $v0, 4
-	la $a0, str_salto
+	li $v0, 11
+	la $a0, LF
 	syscall	
 
 	li $v0, 4
@@ -549,6 +550,8 @@ encontrar_minimo:
 	move $a0, $s0
 	jal find_min
 	move $t1, $v0
+	move $s1, $v1
+	mov.s $f20, $f0
 
 	li $v0, 1
 	move $a0, $t1
@@ -559,7 +562,7 @@ encontrar_minimo:
 	syscall
 
 	li $v0, 1
-	move $a0, $v1
+	move $a0, $s1
 	syscall
 
 	li $v0, 4
@@ -567,7 +570,7 @@ encontrar_minimo:
 	syscall
 
 	li $v0, 2
-	mov.s $f12, $f0
+	mov.s $f12, $f20
 	syscall
 
 	j bucle_menu
