@@ -366,7 +366,7 @@ bucle_menu:
 	beq $t0, 3, cambiar_elemento
 	beq $t0, 4, intercambiar_opuesto
 	beq $t0, 7, encontrar_minimo
-
+	#beq $t0, ? , modificacion
 
 	#Comprobamos que el la opcion elegida sea valida
 	bltz $t0, opcion_error
