@@ -129,16 +129,20 @@ str_matTiene:	.asciiz	"\n\nLa matriz tiene dimension "
 # FUNCIONES ####################################################################
 #Funcion para imprimir las matrices por pantalla
 print_mat:
-
-	lw $t0, 0($a0) #Numero de filas
-	lw $t1, 4($a0) #Numero de columnas
-	addi $t2, $a0, 8 #Primera direccion de los elementos
-
-	addi $sp, $sp, -16
-	sw $t0, 0($s0)
-	sw $t1, 4($sp)
-	sw $t2, 8($sp)
-	sw $ra, 12($sp)
+	
+	addi $sp, $sp, -32
+	sw $s1, 0($sp) #$s1 -> nFil
+	sw $s2, 4($sp) #$s2 -> nCol
+	sw $s3, 8($sp) #$s3 -> primer elemento
+	sw $s4, 12($sp) #s4 -> Tamaño matriz
+	sw $s5, 16($sp) #$s5 -> Iterador filas ( f )
+	sw $s6, 20($sp) #$s6 -> Iterador columnas ( c )
+	s.s $f20, 24($sp) # $f20 -> valor a imprimir por pantalla
+	sw $ra, 28($sp) # direccion de retorno
+	
+	lw $s1, nFil($a0) #Numero de filas
+	lw $s2, nCol($a0) #Numero de columnas
+	addi $s3, $a0, elementos #Primera direccion de los elementos
 
 	#Imprimimos la dimension de la matriz
 	li $v0, 4
@@ -146,40 +150,38 @@ print_mat:
 	syscall
 
 	li $v0, 1
-	lw $a0, 0($sp)
+	move $a0, $s1  #Imprime el numero de filas
 	syscall
 	li $v0, 11
-	la $a0, 78 
+	la $a0, 120 # cout << 'x' <<;
 	syscall
 	li $v0, 1
-	lw $a0, 4($sp)
+	move $a0, $s2 #Imprime el numero de columnas
 	syscall
 
 	li $v0, 11
 	la $a0, LF
 	syscall
 
-	lw $t0, 0($sp)
-	lw $t1, 4($sp)	
-	ble $t0, $zero, fin_bucle_imprimir
-	ble $t1, $zero, fin_bucle_imprimir
+	blez $s1, fin_bucle_imprimir
+	blez $s2, fin_bucle_imprimir
 
 	#Imprimimos los elementos de la matriz
-	mul $t3, $t1, $t0 #Tamaño de la matriz
-	li $t4, 0 #Indice de los elementos
-	li $t5, 0 #Indice de columnas
+	mul $s4, $s1, $s2 #Tamaño de la matriz
+	li $s5, 0 #Indice de los elementos
+	li $s6, 0 #Indice de columnas
 	j bucle_imprimir
 
 	salto_linea:
 	li $v0, 11
 	la $a0, LF
 	syscall
-	li $t5, 0 #Reiniciamos el contador de columnas
+	li $s6, 0 #Reiniciamos el contador de columnas
 
 	j comprobar_fin
 
 	bucle_imprimir:
-	lwc1 $f20, 0($t2)
+	lwc1 $f20, 0($s3)
 	li $v0, 2
 	mov.s $f12, $f20
 	syscall
@@ -187,19 +189,24 @@ print_mat:
 	la $a0, 32
 	syscall
 
-	add $s5, $s5, 1
-	beq $s5, $s1, salto_linea
+	add $s6, $s6, 1
+	beq $s6, $s2, salto_linea
 
 	comprobar_fin:
-	add $t4, $t4, 1
-	addu $t2, $t2, 4
-	blt $t4, $t3, bucle_imprimir
+	add $s5, $s5, 1
+	addu $s3, $s3, 4
+	blt $s5, $s4, bucle_imprimir
 
 	fin_bucle_imprimir:
-	#Limpiamos todos los registros usados
-
-	lw $ra, 12($sp)
-	addi $sp, $sp, 16
+	lw $s1, 0($sp)
+	lw $s2, 4($sp)
+	lw $s3, 8($sp)
+	lw $s4, 12($sp)
+	lw $s5, 16($sp)
+	lw $s6, 20($sp)
+	l.s $f20, 24($sp)
+	lw $ra, 28($sp)	
+	addi $sp, $sp, 32
 
 print_mat_fin: jr $ra
 
@@ -412,6 +419,7 @@ cambiar_matriz_de_trabajo:
 
 	#Imprimimos la matriz escogida
 	mat1_selected:
+	la $s0, mat1
 	j bucle_menu
 
 	mat2_selected:
