@@ -354,3 +354,64 @@ void GRAFO::ComponentesFuertementeConexas() {
 	}
 }
 
+void GRAFO::Kruskal(){
+	vector <AristaPesada> Aristas;
+	Aristas.resize(m);
+	unsigned k = 0;
+	for (unsigned i = 0; i < n; i++) {
+		for (unsigned j = 0; j < LS[i].size(); j++) {
+			if ( i < LS[i][j].j) { // Asegurarnos de que cada arista se meta solo una vez 
+				Aristas[k].extremo1 = i;
+				Aristas[k].extremo2 = LS[i][j].j;
+				Aristas[k].peso = LS[i][j].c;
+				k++; // Incrementar el índice de las aristas
+			}
+		}
+	}
+
+	vector<unsigned> Raiz;
+	Raiz.resize(n);
+	for (unsigned q = 0; q < n; q++) {
+		Raiz[q] = q;
+	}
+
+	unsigned aristas_incorporadas = 0;
+	int contador_aristas = 0;
+	int pesoMST = 0;
+	unsigned numero_aristas = Aristas.size();
+
+	while (aristas_incorporadas < n - 1 && numero_aristas > 0) {
+		int indice_minimo = -1;
+		int peso_minimo = maxint;
+
+		// Buscamos la arista de menor peso 
+		for (unsigned i = 0; i < numero_aristas; i++) {
+			if (Raiz[Aristas[i].extremo1] != Raiz[Aristas[i].extremo2] && Aristas[i].peso < peso_minimo) {
+				peso_minimo = Aristas[i].peso;
+				indice_minimo = i; 
+			}
+		}
+
+		if (indice_minimo == -1) {
+			break;
+		}
+
+		unsigned raiz1 = Raiz[Aristas[indice_minimo].extremo1];
+		unsigned raiz2 = Raiz[Aristas[indice_minimo].extremo2];
+		for (unsigned k = 0; k < n; k++) {
+			if ( Raiz[k] == raiz2) {
+				Raiz[k] = raiz1;
+			}
+		}
+
+		aristas_incorporadas++;
+		pesoMST += Aristas[indice_minimo].peso;
+		cout << "Arista numero " << ++contador_aristas << " incorporada (" << Aristas[indice_minimo].extremo1 + 1 << "," << Aristas[indice_minimo].extremo2 + 1 << ") con peso " << Aristas[indice_minimo].peso << endl;
+		Aristas[indice_minimo] = Aristas[numero_aristas - 1];
+		numero_aristas--;
+	}
+
+	cout << "El peso del arbol generador de minimo coste es " << pesoMST << endl;
+}
+
+

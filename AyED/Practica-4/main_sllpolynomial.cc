@@ -72,5 +72,16 @@ int main()
   sllp2.Sum(sllp3, sllpsum23);
   cout << "sllp2 + sllp3= " << sllpsum23;
 
+
+  //Modificacion viernes
+  cout << endl;
+  SllPolynomial sll_grado_superior1, sll_grado_superior2, sll_grado_superior3;
+  sllp1.Modificacion(sll_grado_superior1);
+  cout << "sllp1 con grado+: " << sll_grado_superior1;
+  sllp2.Modificacion(sll_grado_superior2);
+  cout << "sllp2 con grado+: " << sll_grado_superior2;
+  sllp3.Modificacion(sll_grado_superior3);
+  cout << "sllp3 con grado+: " << sll_grado_superior3;
+
   return 0;
 }

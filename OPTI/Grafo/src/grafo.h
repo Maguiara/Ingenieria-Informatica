@@ -30,6 +30,11 @@ typedef struct
 	int      c; // atributo para expresar los costes, pesos, las longitudes, las inversiones, etc...
 } ElementoLista;
 
+typedef struct {
+	unsigned extremo1, extremo2;
+	int peso;
+} AristaPesada;
+
 // definicion del tipo de una lista de adyacencia de un nodo
 typedef vector<ElementoLista> LA_nodo;
 
@@ -58,6 +63,7 @@ public:
      void RecorridoProfundidad(); //Construye un recorrido en profundidad desde un nodo inicial
      void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial
 		 void ComponentesFuertementeConexas(); //Algoritmo para el calculo de componentes fuertemente conexas
+		 void Kruskal(); //Algoritmo de kruskal para construir el MST
      ~GRAFO(); //Destructor del objeto grafo
 };
 

@@ -22,6 +22,7 @@ void menu (unsigned dirigido, char &opcion)
 						cout << "y. mostrar matriz de ad[y]acencia del grafo" << endl;
             cout << "r. Mostrar recorrido en p[r]ofundidad del grafo desde un nodo por sucesores" << endl;
             cout << "m. Mostrar recorrido en a[m]plitud del grafo desde un nodo por sucesores" << endl;
+            cout << "k. Metodo de [K]ruskal" << endl;
 	    //Aqu� se a�aden m�s opciones al men� del grafo no dirigido
             }
     else
@@ -99,6 +100,14 @@ int main(int argc, char *argv[]) {
         
         case 'm' :
           G.RecorridoAmplitud();
+          break;
+
+        case 'k' : 
+            cout << "Metodo de Kruskal" << endl;
+            cout << endl;
+            G.Kruskal();
+            cout << endl;
+          
           break;
           
 

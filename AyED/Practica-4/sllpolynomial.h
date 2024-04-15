@@ -40,6 +40,9 @@ class SllPolynomial : public sll_t<pair_double_t> {
   double Eval(const double) const;
   bool IsEqual(const SllPolynomial&, const double = EPS) const;
   void Sum(const SllPolynomial&, SllPolynomial&, const double = EPS);
+
+  // Modificacion viernes 
+  void Modificacion(SllPolynomial&) const;
 };
 
 
@@ -172,5 +175,20 @@ void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, c
     }
   }
 } 
+
+// Modificacion viernes
+
+// Estructura iterativa, metodo que fabrique nuevo polinomio, este va a tener un grado mas en cada monomio
+
+void SllPolynomial::Modificacion(SllPolynomial& p) const {
+  SllPolyNode* aux = get_head();
+  while (aux != NULL) {
+    pair_double_t par(aux->get_data().get_val(), aux->get_data().get_inx() + 1);
+    SllPolyNode* aux2 = new SllPolyNode(par);
+    p.push_front(aux2); 
+    aux = aux->get_next(); 
+  }
+}
+
 
 #endif  // SLLPOLYNOMIAL_H_
