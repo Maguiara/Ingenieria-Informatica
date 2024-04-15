@@ -45,35 +45,60 @@ template<class T> const int rpn_t<T>::evaluate(queue_l_t<char>& q) {
 
     if (isdigit(c)) {
       int i = c - '0';
-      // poner código
+      stack_.push(i);
       std::cout << " (es un dígito) " << std::endl
 		<< "   Lo metemos en la pila..." << std::endl;
     } else {
       std::cout << " (es un operador)" << std::endl;
-      // poner código
+      operate_(c);
     }
   }
-  // poner código
+  return stack_.top(); 
 }
 
 template<class T> void rpn_t<T>::operate_(const char c) {
   assert(c == '+' || c == '-' || c == '*' || c == '/');
 
-  // poner código
-  std::cout << "   Sacamos de la pila un operando: " << std::endl;
-  
-  // poner código
-  std::cout << "   Sacamos de la pila otro operando: " << std::endl;
-  
+  std::cout << "   Sacamos de la pila un operando: ";
+  int second_operand = stack_.top();
+  stack_.pop();
+  std::cout << second_operand << std::endl;
+
+  std::cout << "   Sacamos de la pila otro operando: ";
+  int first_operand = stack_.top();
+  stack_.pop();
+  std::cout << first_operand << std::endl;
+
+  int result;
   switch (c) {
     case '+':
-      // poner código
+      result = first_operand + second_operand;
       break;
-    // poner código resto de operadores
+    case '-':  
+      result =  first_operand - second_operand;
+      break;
+    case '*':
+      result = first_operand * second_operand;
+      break;
+    case '/':
+      result = first_operand / second_operand;
+      break;
+    case '^':
+      result = pow(first_operand, second_operand);
+      break;
+    case 'r':
+       result = sqrt(first_operand);
+      break;
+    case 'l':
+      result = log2(first_operand);
+      break;
+    case 'c': 
+      result =  pow(first_operand, 2);
+      break;
   }
 
-  // poner código
-  std::cout << "   Metemos en la pila el resultado: " << std::endl;
+  stack_.push(result);
+  std::cout << "   Metemos en la pila el resultado: " << result << std::endl;
 }
 
  
