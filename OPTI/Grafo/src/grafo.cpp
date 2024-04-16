@@ -355,12 +355,17 @@ void GRAFO::ComponentesFuertementeConexas() {
 }
 
 void GRAFO::Kruskal(){
+	// Crear un vector de aristas para almacenar todas las aristas del grafo
 	vector <AristaPesada> Aristas;
 	Aristas.resize(m);
 	unsigned k = 0;
+	// Recorrer todos los nodos del grafo
 	for (unsigned i = 0; i < n; i++) {
+		// Recorrer todas las aristas de cada nodo
 		for (unsigned j = 0; j < LS[i].size(); j++) {
-			if ( i < LS[i][j].j) { // Asegurarnos de que cada arista se meta solo una vez 
+			// Asegurarnos de que cada arista se meta solo una vez 
+			if ( i < LS[i][j].j) {
+				// Almacenar los extremos y el peso de la arista
 				Aristas[k].extremo1 = i;
 				Aristas[k].extremo2 = LS[i][j].j;
 				Aristas[k].peso = LS[i][j].c;
@@ -369,22 +374,37 @@ void GRAFO::Kruskal(){
 		}
 	}
 
+	// Crear un vector para almacenar la raíz de cada nodo
 	vector<unsigned> Raiz;
 	Raiz.resize(n);
 	for (unsigned q = 0; q < n; q++) {
 		Raiz[q] = q;
 	}
 
+	// Ordenar las aristas en orden descendente de peso
+	AristaPesada aux;
+	for (unsigned i = 0; i < m - 1; i++) {
+		for (unsigned j = 0; j < m - 1; j++) {
+			if (Aristas[j].peso < Aristas[j + 1].peso) {
+				aux = Aristas[j];
+				Aristas[j] = Aristas[j + 1];
+				Aristas[j + 1] = aux;
+			}
+		}
+	}
+
+	// Variables para contar las aristas incorporadas y el peso total del MST
 	unsigned aristas_incorporadas = 0;
 	int contador_aristas = 0;
 	int pesoMST = 0;
 	unsigned numero_aristas = Aristas.size();
 
+	// Aplicar el algoritmo de Kruskal
 	while (aristas_incorporadas < n - 1 && numero_aristas > 0) {
 		int indice_minimo = -1;
 		int peso_minimo = maxint;
 
-		// Buscamos la arista de menor peso 
+		// Aseguramos que no se formen bucles
 		for (unsigned i = 0; i < numero_aristas; i++) {
 			if (Raiz[Aristas[i].extremo1] != Raiz[Aristas[i].extremo2] && Aristas[i].peso < peso_minimo) {
 				peso_minimo = Aristas[i].peso;
@@ -396,6 +416,7 @@ void GRAFO::Kruskal(){
 			break;
 		}
 
+		// Unir los conjuntos de los extremos de la arista seleccionada
 		unsigned raiz1 = Raiz[Aristas[indice_minimo].extremo1];
 		unsigned raiz2 = Raiz[Aristas[indice_minimo].extremo2];
 		for (unsigned k = 0; k < n; k++) {
@@ -404,14 +425,51 @@ void GRAFO::Kruskal(){
 			}
 		}
 
+		// Incrementar el contador de aristas incorporadas y el peso total del MST
 		aristas_incorporadas++;
 		pesoMST += Aristas[indice_minimo].peso;
+		// Imprimir la arista incorporada
 		cout << "Arista numero " << ++contador_aristas << " incorporada (" << Aristas[indice_minimo].extremo1 + 1 << "," << Aristas[indice_minimo].extremo2 + 1 << ") con peso " << Aristas[indice_minimo].peso << endl;
+		// Eliminar la arista seleccionada del vector de aristas
 		Aristas[indice_minimo] = Aristas[numero_aristas - 1];
 		numero_aristas--;
 	}
 
-	cout << "El peso del arbol generador de minimo coste es " << pesoMST << endl;
+	// Comprobar si el grafo es conexo
+	// Creamos un vector para almacenar las componentes conexas
+	vector<unsigned> componentes_conexas;
+	componentes_conexas.resize(n);
+	unsigned num_componentes = 0;
+	
+	// Recorremos todos los nodos del grafo
+	for (unsigned i = 0; i < n; i++) {
+		bool componente_nueva = true;
+		
+		// Comprobamos si la raíz del nodo i ya está en las componentes conexas
+		for (unsigned j = 0; j < num_componentes; j++) {
+			if (Raiz[i] == componentes_conexas[j]) {
+				componente_nueva = false;
+			}
+		}
+		
+		// Si la raíz del nodo i no está en las componentes conexas, la añadimos
+		if (componente_nueva) {
+			componentes_conexas[num_componentes] = Raiz[i];
+			num_componentes++;
+		}
+	}
+
+	//Imprimir si el grafo es conexo o no
+	if (num_componentes == 1) {
+		cout << "El grafo es conexo" << endl;
+		cout << "El peso del arbol generador de minimo coste es " << pesoMST << endl;
+	} else {
+		cout << "El grafo no es conexo, tiene " <<  num_componentes <<  " componentes conexas" << endl;
+	}
+
+	// Imprimir el número de componentes conexas
+
+
 }
 
 
