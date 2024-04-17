@@ -1,4 +1,4 @@
-// AUTOR: 
+// AUTOR:  Marco Aguiar Álvarez
 // FECHA: 
 // EMAIL: 
 // VERSION: 2.0
@@ -32,6 +32,7 @@ template <class T> class rpn_t {
  private: 
   T stack_;
   void operate_(const char operador);
+  T stack_parcial;
 };
 
 
@@ -48,11 +49,15 @@ template<class T> const int rpn_t<T>::evaluate(queue_l_t<char>& q) {
       stack_.push(i);
       std::cout << " (es un dígito) " << std::endl
 		<< "   Lo metemos en la pila..." << std::endl;
+    stack_.write();
     } else {
       std::cout << " (es un operador)" << std::endl;
       operate_(c);
+      stack_.write();
     }
   }
+  std::cout << "Resultados parciales: " << std::endl;
+  stack_parcial.write();
   return stack_.top(); 
 }
 
@@ -98,7 +103,9 @@ template<class T> void rpn_t<T>::operate_(const char c) {
   }
 
   stack_.push(result);
+  stack_parcial.push(result);
   std::cout << "   Metemos en la pila el resultado: " << result << std::endl;
+  std::cout << "   Metemos en la pila parcial el resultado parcial: " << result << std::endl;
 }
 
  
