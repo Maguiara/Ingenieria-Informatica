@@ -1,25 +1,21 @@
-# Repositorio de Estudiante Universitario
+<h1 align="center">Hi 👋, I'm Marco Aguiar Álvarez</h1>
+<h3 align="center">A passionate university developer from La Laguna</h3>
 
-¡Hola! Este es mi repositorio universitario, donde guardo proyectos, ejercicios y recursos relacionados con mis estudios.
+<p align="left"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=maguiara" alt="maguiara" /></a> </p>
 
-## Estructura del Repositorio
+- 🔭 I’m currently working on **graduate of the University**
 
-- **Proyectos**: Aquí encontrarás los proyectos en los que he trabajado durante mis cursos.
+- 🌱 I’m currently learning **C++, python**
 
-- **Ejercicios**: Esta sección contiene ejercicios y prácticas que he realizado para reforzar mis conocimientos.
+- ⚡ Fun fact **viva españa**
 
-- **Recursos**: Enlaces útiles a libros, tutoriales y otros recursos que he encontrado útiles en mis estudios.
+<h3 align="left">Connect with me:</h3>
+<p align="left">
+</p>
 
-## Destacados
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/> </a> <a href="https://www.w3schools.com/cpp/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="cplusplus" width="40" height="40"/> </a> <a href="https://www.w3schools.com/cs/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="csharp" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> <a href="https://unity.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/unity3d/unity3d-icon.svg" alt="unity" width="40" height="40"/> </a> <a href="https://unrealengine.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/kenangundogan/fontisto/036b7eca71aab1bef8e6a0518f7329f13ed62f6b/icons/svg/brand/unreal-engine.svg" alt="unreal" width="40" height="40"/> </a> </p>
 
-- **Proyecto de Programación Web**: Desarrollé un sitio web básico utilizando HTML, CSS y JavaScript como proyecto final para mi curso de programación web.
+<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=maguiara&show_icons=true&locale=en" alt="maguiara" /></p>
 
-- **Ejercicios de Algoritmos**: Implementé algoritmos de búsqueda y ordenamiento en Python como parte de mis tareas semanales en el curso de algoritmos.
-
-## Recursos Recomendados
-
-- **Tutorial de Git en YouTube**: [Git y GitHub para Principiantes](https://www.youtube.com/watch?v=SWYqp7iY_Tc)
-
-- **Libro "C++ Primer" by Stanley B. Lippman et al.**: Una guía esencial para aprender C++, utilizado en mis cursos de programación.
-
-¡Gracias por visitar mi repositorio! Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
+<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=maguiara&" alt="maguiara" /></p>
