@@ -30,31 +30,34 @@ cad3:   .asciiz "\nFIN DEL PROGRAMA\n"
 
 # void printvec(double *v, const int n) {
 print_vec:
-    addi $sp, $sp, -4
+    addi $sp, $sp, -20
     sw $ra, 0($sp)
+    sw $s0, 4($sp)
+    sw $s1, 8($sp)
+    sw $s2, 12($sp)
+    sw $s3, 16($sp)
     
 
     # $a0 = longitud vector (n1)
-    move $t0, $a0
+    move $s0, $a0
     # $a1 = direccion del vector (v1)
-    move $t1, $a1
+    move $s1, $a1
 
-    li $t2, 0 #Iterador para el bucle for
+    li $s2, 0 #Iterador para el bucle for
 #     for (int i = 0; i < n; i++)
     for:
-    mul $t3, $t2, sizeD
-    addu $t3, $t1, $t3
-    l.d $f0, 0($t3)
+    mul $s3, $s2, sizeD
+    addu $s3, $s1, $s3
+    l.d $f12, 0($s3)
 #         std::cout << v[i] << " ";
     li $v0, 3
-    mov.d $f12, $f0
     syscall 
     li $v0, 11
     la $a0, SPACE
     syscall
 
-    addi $t2, $t2, 1
-    blt $t2, $t0, for
+    addi $s2, $s2, 1
+    blt $s2, $s0, for
 
     for_fin:
 
@@ -65,18 +68,22 @@ print_vec:
     syscall 
 #     return;
     lw $ra, 0($sp)
-    addi $sp, $sp, 4    
+    lw $s0, 4($sp)
+    lw $s1, 8($sp)
+    lw $s2, 12($sp)
+    lw $s3, 16($sp)
+    addi $sp, $sp, 20
 # }
 print_vec_fin: jr $ra
 
 # int ordenado(double *v, const int n) {
 ordenado:
-
+    
     move $t0, $a0 #Tamaño del vector
     move $t1, $a1, #Direccion del vector
 
 #     int resultado = 1;
-    li $t2, 1 #Resultado que devuelve la funcion
+    li $v0, 1 #Resultado que devuelve la funcion
 #     int i =   0;
     li $t3, 0 #Iterador 
 #     while (i < n-1) {
@@ -94,13 +101,13 @@ ordenado:
 
 #         if (v[i+1] >= v[i]) {
     if: 
-    c.lt.d $f2, $f0
-    bc1t if_fin
+    c.le.d $f0, $f2
+    bc1f if_fin
 #             resultado = 0;
-    move $t2, $zero
-    if_fin: 
+    move $v0, $zero
 #             break;
     j while_fin
+    if_fin: 
 
 #         }
 #         i++;
@@ -109,61 +116,159 @@ ordenado:
 #     }
     while_fin: 
 #     return(resultado);
-    move $v0, $t2
-    lw $ra, 0($sp)
-    addi $sp, $sp, 4
 # }
 ordenado_fin: jr $ra
 
 # void merge(double *v1, const int n1,double *v2, const int n2) {
 merge_vec: 
-#     int  o1 = ordenado(v1,n1);
+
+    addi $sp, $sp, -40
+    sw $ra, 0($sp)
+    sw $s0, 4($sp)
+    sw $s1, 8($sp)
+    sw $s2, 12($sp)
+    sw $s3, 16($sp)
+    sw $s4, 20($sp)
+    sw $s5, 24($sp)
+    sw $s6, 28($sp)
+    s.d $f20, 32($sp)
+    s.d $f24, 36($sp)
+
+    move $s0, $a0
+    move $s1, $a1
+    move $s2, $a2
+    move $s3, $a3
+
+
     jal ordenado 
 
 #     if (o1 == 0) return;
-    beq $v0, $zero, merge_vec_fin
+    beq $v0, $zero, return
 #     int o2 = ordenado(v2,n2);
+    move $a0, $s2
+    move $a1, $s3
     jal ordenado 
 
 #     if (o2 == 0) return;
-    beq $v0, $zero, merge_vec_fin
+    beq $v0, $zero, return
 #     int i = 0; // índice para recorrer el v1
+    li $s4, 0
 #     int j = 0; // índice para recorrer el v2
+    li $s5, 0 
 #     while ( ( i < n1) && (j < n2) ) {
+    while_principal:
+    bge $s4, $s0, while_principal_fin
+    bge $s5, $s2, while_principal_fin
+
+    mul $s6, $s4, sizeD
+    addu $s6, $s6, $s1
+    l.d $f20, 0($s6)
+    mul $s6, $s5, sizeD
+    addu $s6, $s6, $s3
+    l.d $f22, 0($s6)
 #         if (v1[i] >= v2[j]) {
+    if_2:
+    c.lt.d $f20, $f22 
+    bc1t else
+
 #             std::cout << v1[i] << " ";
+    li $v0, 3
+    mov.d $f12, $f20
+    syscall
+    li $v0, 11
+    la $a0, SPACE
+    syscall
 #             i++;
+    addi $s4, $s4, 1
+    j while_principal
 #         }
 #         else {
+    else:
 #             std::cout << v2[j] << " ";
+    li $v0, 3
+    mov.d $f12, $f22
+    syscall
+    li $v0, 11
+    la $a0, SPACE
+    syscall
 #             j++;
+    addi $s5, $s5, 1
+    j while_principal
 #         }
 #     }
+    while_principal_fin:
+
+    li $v0, 11
+    la $a0, SPACE
+    syscall
+
 #     while ( i < n1) {
+    while_i:
+    bge $s4, $s0, while_i_fin
+
+    mul $s6, $s4, sizeD
+    addu $s6, $s6, $s1
+    l.d $f20, 0($s6)
 #         std::cout << v1[i] << " ";
+    li $v0, 3
+    mov.d $f12, $f20
+    syscall
+    
+    li $v0, 11
+    la $a0, SPACE
+    syscall 
+
 #         i++;
+    addi $s4, $s4, 1
+
+    j while_i
 #     }
+    while_i_fin:
+
 #     while ( j < n2) {
+    while_j:
+    bge $s5, $s2, while_j_fin
+
+    mul $s6, $s5, sizeD
+    addu $s6, $s6, $s2
+    l.d $f22, 0($s6)
 #         std::cout << v2[j] << " ";
+    li $v0, 3
+    mov.d $f12, $f22
+    syscall
+    li $v0, 11
+    la $a0, SPACE 
+    syscall
 #         j++;
+    addi $s5, $s5, 1
+
+    j while_j
 #     }
+    while_j_fin:
+
 #     std::cout << "\n";
+    li $v0, 11
+    la $a0, LF
+    syscall
 #     return;
     return: 
     lw $ra, 0($sp)
-    addi $sp, $sp, 4
+    lw $s0, 4($sp)
+    lw $s1, 8($sp)
+    lw $s2, 12($sp)
+    lw $s3, 16($sp)
+    lw $s4, 20($sp)
+    lw $s5, 24($sp)
+    lw $s6, 28($sp)
+    l.d $f20, 32($sp)
+    l.d $f24, 36($sp)
+    addi $sp, $sp, 40
 # }
 merge_vec_fin: jr $ra 
 
 # int main(void) {
 main:
-    #Cargamos todos los parametros 
-    lw $s0, n1
-    la $s1, v1
-    lw $s2, n2
-    la $s3, v2
-    lw $s4, n3
-    la $s5, v3
+  
 
 #     std::cout << "\nVector con dimension " << n1 << std::endl;
     li $v0, 4
@@ -173,8 +278,8 @@ main:
     la $a0, LF
     syscall 
 #     printvec(v1,n1);
-    move $a0, $s0
-    move $a1, $s1
+    lw $a0, n1
+    la $a1, v1
     jal print_vec
   
 #     std::cout << "\nVector con dimension " << n2 << std::endl;
@@ -185,8 +290,8 @@ main:
     la $a0, LF
     syscall
 #     printvec(v2,n2);
-    move $a0, $s2
-    move $a1, $s3
+    lw $a0, n2
+    la $a1, v2
     jal print_vec
 
 #     std::cout << "\nVector con dimension " << n3 << std::endl;
@@ -197,8 +302,8 @@ main:
     la $a0, LF
     syscall
 #     printvec(v3,n3);
-    move $a0, $s4
-    move $a1, $s5
+    lw $a0, n3
+    la $a1, v3
     jal print_vec
 
   
@@ -211,10 +316,10 @@ main:
     syscall
 #     merge(v1,n1,v2,n2);
 
-    move $a0, $s0
-    move $a1, $s1
-    move $a2, $s2
-    move $a3, $s3
+    lw $a0, n1
+    la $a1, v1
+    lw $a2, n2
+    la $a3, v2
 
     jal merge_vec
 
@@ -226,10 +331,10 @@ main:
     la $a0, LF 
     syscall 
 
-    move $a0, $s0
-    move $a1, $s1
-    move $a2, $s4
-    move $a3, $s5
+    lw $a0, n1
+    la $a1, v1
+    lw $a2, n3
+    la $a3, v3
 
     jal merge_vec 
 #     merge(v1,n1,v3,n3);
@@ -242,8 +347,8 @@ main:
     la $a0, LF 
     syscall 
 
+#     return(0);
     li $v0, 10
     syscall
-#     return(0);
 # }
 
