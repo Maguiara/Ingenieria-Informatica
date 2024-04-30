@@ -321,6 +321,8 @@ main:
     li $v0, 11
     la $a0, LF
     syscall
+
+
 #     merge(v1,n1,v2,n2);
 
     lw $a0, n1
