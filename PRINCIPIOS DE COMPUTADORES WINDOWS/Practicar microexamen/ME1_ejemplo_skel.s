@@ -43,6 +43,13 @@ print_vec:
     # $a1 = direccion del vector (v1)
     move $s1, $a1
 
+    li $v0, 1
+    move $a0, $s0
+    syscall
+    li $v0, 11
+    la $a0, LF
+    syscall
+
     li $s2, 0 #Iterador para el bucle for
 #     for (int i = 0; i < n; i++)
     for:
@@ -122,7 +129,7 @@ ordenado_fin: jr $ra
 # void merge(double *v1, const int n1,double *v2, const int n2) {
 merge_vec: 
 
-    addi $sp, $sp, -40
+    addi $sp, $sp, -48
     sw $ra, 0($sp)
     sw $s0, 4($sp)
     sw $s1, 8($sp)
@@ -132,7 +139,7 @@ merge_vec:
     sw $s5, 24($sp)
     sw $s6, 28($sp)
     s.d $f20, 32($sp)
-    s.d $f24, 36($sp)
+    s.d $f24, 40($sp)
 
     move $s0, $a0
     move $s1, $a1
@@ -261,8 +268,8 @@ merge_vec:
     lw $s5, 24($sp)
     lw $s6, 28($sp)
     l.d $f20, 32($sp)
-    l.d $f24, 36($sp)
-    addi $sp, $sp, 40
+    l.d $f24, 40($sp)
+    addi $sp, $sp, 48
 # }
 merge_vec_fin: jr $ra 
 
@@ -275,7 +282,7 @@ main:
     la $a0, cad1
     syscall
     li $v0, 11
-    la $a0, LF
+    la $a0, SPACE
     syscall 
 #     printvec(v1,n1);
     lw $a0, n1
@@ -287,7 +294,7 @@ main:
     la $a0, cad1
     syscall
     li $v0, 11
-    la $a0, LF
+    la $a0, SPACE
     syscall
 #     printvec(v2,n2);
     lw $a0, n2
@@ -299,7 +306,7 @@ main:
     la $a0, cad1
     syscall
     li $v0, 11
-    la $a0, LF
+    la $a0, SPACE
     syscall
 #     printvec(v3,n3);
     lw $a0, n3
