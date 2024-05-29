@@ -42,6 +42,7 @@ template <class T> class dll_t {
 
   //Modificaciones propuestas
   void insert_node(dll_node_t<T>*, dll_node_t<T>*);
+  void merge(dll_node_t<T>*, dll_node_t<T>*, dll_node_t<T>*);
 
 
   // E/S
@@ -163,6 +164,31 @@ template <class T> void dll_t<T>::insert_node(dll_node_t<T>* prev, dll_node_t<T>
   sz_++;
 }
 
+//Funcion que dadas dos listas enlazadas doblemente y
+// ordenadas de mayor a menor da como resultado otra 
+// lista ordenada de menor a mayor
+template <class T> void dll_t<T>::merge(dll_node_t<T>* L1, dll_node_t<T>* L2, dll_node_t<T>* R){
+  dll_node_t<T>* aux = L1.get_head();
+  dll_node_t<T>* aux2 = L2.get_head();
+  while (aux != NULL && aux2 != NULL) {
+    if (L1->get_data() <= L2->get_data())
+      R.push_back(L1->get_data());
+      aux = aux->get_next();
+    } else {
+      R.push_back(L2->get_data());
+      aux2 = aux2->get_next();
+    }
+
+  while (aux != NULL){
+    R.push_back(L1->get_data());
+    aux = aux->get_next(); 
+  }
+
+  while (aux2 != NULL) {
+    R.push_back(L2->get_data());
+    aux2 = aux2->get_next();
+  } 
+}
 
 
 // E/S
