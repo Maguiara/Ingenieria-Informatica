@@ -127,4 +127,22 @@ std::ostream& operator<<(std::ostream& os, const sparse_vector_t& sv) {
   return os;
 }
 
+double operator*(const sparse_vector_t& a, const sparse_vector_t& b) {
+  assert(a.get_n() == b.get_n() );
+  const int nz_a = a.get_nz();
+  const int nz_b = b.get_nz();
+  double producto_escalar{0};
+  int i = 0, j= 0;
+  while (i != nz_a && j != nz_b) {
+    if (a[i].get_inx() == b[j].get_inx()) {
+      producto_escalar += a[i++].get_val() * b[j++].get_val(); 
+    } else if (a[i].get_inx() < b[j].get_inx()) {
+      i++;
+    } else {
+      j++;
+    }
+  }
+  return producto_escalar;
+}
+
 #endif  // SPARSE_VECTORT_H_
